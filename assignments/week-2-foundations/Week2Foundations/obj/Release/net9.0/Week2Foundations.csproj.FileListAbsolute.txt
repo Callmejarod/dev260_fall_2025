@@ -1,0 +1,15 @@
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\bin\Release\net9.0\Week2Foundations.exe
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\bin\Release\net9.0\Week2Foundations.deps.json
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\bin\Release\net9.0\Week2Foundations.runtimeconfig.json
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\bin\Release\net9.0\Week2Foundations.dll
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\bin\Release\net9.0\Week2Foundations.pdb
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.AssemblyInfoInputs.cache
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.AssemblyInfo.cs
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.csproj.CoreCompileInputs.cache
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.sourcelink.json
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.dll
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\refint\Week2Foundations.dll
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.pdb
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\Week2Foundations.genruntimeconfig.cache
+C:\Users\Jarod\OneDrive\Documents\DEV260\dev260_fall_2025\assignments\week-2-foundations\Week2Foundations\obj\Release\net9.0\ref\Week2Foundations.dll
