@@ -142,15 +142,32 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 3a - Implement adding to the beginning of the list
             // 1. Create a new node with the item
+            Node<T> newNode = new Node<T>(item);
+
             // 2. If list is empty: set both head and tail to new node
+            if (IsEmpty)
+            {
+                head = newNode;
+                tail = newNode;
+            }
+
             // 3. If list is not empty:
             //    - Set new node's Next to current head
             //    - Set current head's Previous to new node
             //    - Update head to new node
+
+            else
+            {
+                newNode.Next = head;
+                head.Previous = newNode;
+                head = newNode;
+            }
+
             // 4. Increment count
             // 📖 See: https://www.geeksforgeeks.org/dsa/introduction-and-insertion-in-a-doubly-linked-list/#insertion-at-the-beginning-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 3a - Implement AddFirst method");
+            count++;
+
+
         }
         
         /// <summary>
@@ -163,15 +180,29 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 3b - Implement adding to the end of the list
             // 1. Create a new node with the item
+            Node<T> newNode = new Node<T>(item);
+
             // 2. If list is empty: set both head and tail to new node
+            if (IsEmpty)
+            {
+                head = newNode;
+                tail = newNode;
+            }
+
             // 3. If list is not empty:
             //    - Set current tail's Next to new node
             //    - Set new node's Previous to current tail
             //    - Update tail to new node
+            else
+            {
+                tail.Next = newNode;
+                newNode.Previous = tail;
+                tail = newNode;
+            }
+
             // 4. Increment count
             // 📖 See: https://www.geeksforgeeks.org/dsa/introduction-and-insertion-in-a-doubly-linked-list/#insertion-at-the-end-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 3b - Implement AddLast method");
+            count++;
         }
         
         /// <summary>
@@ -191,17 +222,40 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 3c - Implement inserting at a specific position
             // 1. Validate index range (0 to count inclusive)
+            if (index < 0 || index > count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             // 2. Handle special cases:
             //    - If index == 0: call AddFirst
             //    - If index == count: call AddLast
+            if (index == 0)
+            {
+                AddFirst(item);
+                return;
+            }
+
+            if (index == count)
+            {
+                AddLast(item);
+                return;
+            }
             // 3. For middle insertion:
             //    - Traverse to the position (use GetNodeAt helper)
             //    - Create new node
             //    - Update pointers: new node's Next/Previous and surrounding nodes
+            Node<T> indexNode = GetNodeAt(index);
+            Node<T> newNode = new Node<T>(item);
+
+            // adjust pointers
+            newNode.Next = indexNode;
+            newNode.Previous = indexNode.Previous;
+            indexNode.Previous.Next = newNode;
+            indexNode.Previous = newNode;
+
             // 4. Increment count
-            // 📖 See: https://www.geeksforgeeks.org/dsa/introduction-and-insertion-in-a-doubly-linked-list/#insertion-after-a-given-node-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 3c - Implement Insert method");
+            count++;
         }
         
         #endregion
@@ -216,12 +270,23 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 4a - Implement forward traversal and display
             // 1. Start from head node
+            Node<T> currentNode = head;
+
             // 2. Traverse using Next pointers until null
             // 3. Print each node's data with proper formatting
             // 4. Show empty list message if list is empty
-            // 📖 See: https://www.geeksforgeeks.org/dsa/traversal-in-doubly-linked-list/#forward-traversal
-            
-            throw new NotImplementedException("TODO: Step 4a - Implement DisplayForward method");
+            if (IsEmpty)
+            {
+                Console.WriteLine("List is empty.");
+                return;
+            }
+
+            while (currentNode != null)
+            {
+                Console.Write(currentNode.Data + " ");
+                currentNode = currentNode.Next;
+            }
+            Console.WriteLine();
         }
         
         /// <summary>
@@ -232,13 +297,23 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 4b - Implement backward traversal and display
             // 1. Start from tail node
+            Node<T> currentNode = tail;
+
             // 2. Traverse using Previous pointers until null
             // 3. Print each node's data with proper formatting
             // 4. Show empty list message if list is empty
-            // This demonstrates the power of doubly linked lists!
-            // 📖 See: https://www.geeksforgeeks.org/dsa/traversal-in-doubly-linked-list/#backward-traversal
-            
-            throw new NotImplementedException("TODO: Step 4b - Implement DisplayBackward method");
+            if (IsEmpty)
+            {
+                Console.WriteLine("List is empty.");
+                return;
+            }
+
+            while (currentNode != null)
+            {
+                Console.Write(currentNode.Data + " ");
+                currentNode = currentNode.Previous;
+            }
+            Console.WriteLine();
         }
         
         /// <summary>
@@ -251,11 +326,22 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 4c - Implement array conversion
             // 1. Create array of size count
+            T[] array = new T[count];
+
             // 2. Traverse the list and copy elements to array
+            Node<T> currentNode = head;
+            while (currentNode != null)
+            {
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array[i] = currentNode.Data;
+                    currentNode = currentNode.Next;
+                }
+            }
             // 3. Return the populated array
-            // 📖 See: https://www.geeksforgeeks.org/dsa/traversal-in-doubly-linked-list/
+            return array;
             
-            throw new NotImplementedException("TODO: Step 4c - Implement ToArray method");
+            // throw new NotImplementedException("TODO: Step 4c - Implement ToArray method");
         }
         
         #endregion
@@ -274,10 +360,17 @@ namespace Week4DoublyLinkedLists.Core
             // TODO: Step 5a - Implement contains check
             // 1. Traverse the list from head to tail
             // 2. Compare each node's data with the item
+            Node<T> currentNode = head;
+            while (currentNode != null)
+            {
+                if (Equals(currentNode.Data, item))
+                {
+                    return true;
+                }
+                currentNode = currentNode.Next;
+            }
             // 3. Return true if found, false if not found
-            // 📖 See: https://www.geeksforgeeks.org/dsa/search-an-element-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 5a - Implement Contains method");
+            return false;
         }
         
         /// <summary>
@@ -293,9 +386,17 @@ namespace Week4DoublyLinkedLists.Core
             // 1. Traverse the list from head to tail
             // 2. Compare each node's data with the item
             // 3. Return the node if found, null if not found
-            // 📖 See: https://www.geeksforgeeks.org/dsa/search-an-element-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 5b - Implement Find method");
+            Node<T> currentNode = head;
+
+            while (currentNode != null)
+            {
+                if (Equals(currentNode.Data, item))
+                {
+                    return currentNode;
+                }
+            }
+
+            return null;
         }
         
         /// <summary>
@@ -311,10 +412,20 @@ namespace Week4DoublyLinkedLists.Core
             // 1. Traverse the list from head to tail
             // 2. Keep track of current index
             // 3. Compare each node's data with the item
+            Node<T> currentNode = head;
+            int index = 0;
+
+            while (currentNode != null)
+            {
+                index++;
+                if (Equals(currentNode.Data, item))
+                {
+                    return index;
+                }
+            }
+
             // 4. Return index if found, -1 if not found
-            // 📖 See: https://www.geeksforgeeks.org/dsa/search-an-element-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 5c - Implement IndexOf method");
+            return -1;
         }
         
         #endregion
@@ -331,15 +442,29 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 6a - Implement remove first
             // 1. Check if list is empty (throw exception if empty)
+            if (IsEmpty)
+            {
+                throw new InvalidOperationException("Cannot remove from an empty list.");
+            }
             // 2. Store the data to return
+            Node<T> removedData = head;
+
             // 3. Update head to head.Next
+            head = head.Next;
             // 4. If new head is not null, set its Previous to null
+            if (head != null)
+            {
+                head.Previous = null;
+            }
             // 5. If list becomes empty, set tail to null
+            if (IsEmpty)
+            {
+                tail = null;
+            }
             // 6. Decrement count
+            count--;
             // 7. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-the-beginning-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6a - Implement RemoveFirst method");
+            return removedData.Data;
         }
         
         /// <summary>
@@ -352,15 +477,28 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 6b - Implement remove last
             // 1. Check if list is empty (throw exception if empty)
+            if (IsEmpty)
+            {
+                throw new InvalidOperationException("Cannot remove from an empty list.");
+            }
             // 2. Store the data to return
+            Node<T> removedData = tail;
             // 3. Update tail to tail.Previous
+            tail = tail.Previous;
             // 4. If new tail is not null, set its Next to null
+            if (tail != null)
+            {
+                tail.Next = null;
+            }
             // 5. If list becomes empty, set head to null
+            if (IsEmpty)
+            {
+                head = null;
+            }
             // 6. Decrement count
+            count--;
             // 7. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-the-end-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6b - Implement RemoveLast method");
+            return removedData.Data;
         }
         
         /// <summary>
@@ -374,12 +512,19 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 6c - Implement remove by value
             // 1. Find the node containing the item (use Find method or traverse)
+            Node<T> nodeItem = Find(item);
             // 2. If not found, return false
+            if (nodeItem == null)
+            {
+                return false;
+            }
             // 3. If found, call RemoveNode helper method
             // 4. Return true
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Step 6c - Implement Remove method");
+            else
+            {
+                RemoveNode(nodeItem);
+                return true;
+            }
         }
         
         /// <summary>
@@ -393,17 +538,34 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Step 6d - Implement remove at index
             // 1. Validate index range (0 to count-1)
+            if (index < 0 || index > count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
+            }
             // 2. Handle special cases:
             //    - If index == 0: call RemoveFirst
             //    - If index == count-1: call RemoveLast
+            if (index == 0)
+            {
+                return RemoveFirst();
+            }
+            else if (index == count - 1)
+            {
+                return RemoveLast();
+            }
+
             // 3. For middle removal:
             //    - Get the node at index (use GetNodeAt helper)
             //    - Store data to return
             //    - Call RemoveNode helper method
             // 4. Return the stored data
-            // 📖 See: https://www.geeksforgeeks.org/dsa/delete-a-node-in-a-doubly-linked-list/#deletion-at-a-specific-position-in-doubly-linked-list
-            
-            throw new NotImplementedException("TODO: Step 6d - Implement RemoveAt method");
+
+            else
+            {
+                Node<T> getNode = GetNodeAt(index);
+                RemoveNode(getNode);
+                return getNode.Data;
+            }
         }
         
         #endregion
@@ -455,19 +617,40 @@ namespace Week4DoublyLinkedLists.Core
         /// </summary>
         /// <param name="index">Index to get node at (0-based)</param>
         /// <returns>Node at the specified index</returns>
-        private Node<T> GetNodeAt(int index)
+        public Node<T> GetNodeAt(int index)
         {
             // TODO: Helper Method - Implement optimized node retrieval
             // 1. Validate index range (0 to count-1)
+            if (index < 0 || index >= count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             // 2. Optimize traversal direction:
             //    - If index < count/2: start from head and go forward
             //    - If index >= count/2: start from tail and go backward
-            // 3. Traverse to the specified index
+            Node<T> current;
+
+            if (index < count / 2)
+            {
+                current = head;
+                for (int i = 0; i < index; i++)
+                {
+                    current = current.Next;
+                }
+            }
+            else
+            {
+                current = tail;
+                for (int i = count - 1; i > index; i--)
+                {
+                    current = current.Previous;
+                }
+            }
+
+
             // 4. Return the node at that position
-            // Hint: This optimization makes operations on large lists more efficient
-            // 📖 See: https://www.geeksforgeeks.org/dsa/traversal-in-doubly-linked-list/
-            
-            throw new NotImplementedException("TODO: Helper - Implement GetNodeAt helper method");
+            return current;
         }
         
         /// <summary>
@@ -481,11 +664,43 @@ namespace Week4DoublyLinkedLists.Core
         {
             // TODO: Helper Method - Implement node removal logic
             // Handle all cases for removing a node:
+
             // 1. Only node in list (node == head == tail)
+            if (node == head && node == tail)
+            {
+                head = null;
+                tail = null;
+            }
+
             // 2. First node (node == head, but not tail)
+            else if (node == head)
+            {
+                head = head.Next;
+                if (head != null)
+                {
+                    head.Previous = null;
+                }
+            }
+
             // 3. Last node (node == tail, but not head)
+            else if (node == tail)
+            {
+                tail = tail.Previous;
+                if (tail != null)
+                {
+                    tail.Next = null;
+                }
+            }
+
             // 4. Middle node (node has both Previous and Next)
-            // 
+            else
+            {
+                node.Previous.Next = node.Next;
+                node.Next.Previous = node.Previous;
+            }
+
+            count--;
+
             // For each case, update the appropriate pointers:
             // - Update Previous node's Next pointer
             // - Update Next node's Previous pointer
