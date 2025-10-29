@@ -1,52 +1,46 @@
-# Assignment 5: Browser Navigation System - Implementation Notes
+# Browser Navigation System - Study Notes
 
-**Name:** [Your Name]
+## BrowserSession Building Step-by-Step Progress
 
-## Dual-Stack Pattern Understanding
+- **Step 1: VisitURL Method**
+    - Started by implementing the logic for visiting a new page.
+    - Checked if currentPage exists — if it does, push it to the backStack.
+    - Cleared the forwardStack to simulate a browser resetting forward history after a new navigation.
+    - Created a new WebPage object and set it as the current page.
 
-**How the dual-stack pattern works for browser navigation:**
-[Explain your understanding of how the back and forward stacks work together to create browser-like navigation]
+- **Step 2: GoBack Method**
+    - Checked if backStack has any pages (guard clause).
+    - If so, pushed the currentPage to the forwardStack.
+    - Popped the top page from the backStack and made it the new currentPage.
+    - Returned true if navigation succeeded, false otherwise.
 
-## Challenges and Solutions
+- **Step 3: GoForward Method**
+    - Checked if forwardStack is empty.
+    - Pushed the currentPage to the backStack.
+    - Popped from the forwardStack to move forward through history.
+    - Returned true or false depending on success.
 
-**Biggest challenge faced:**
-[Describe the most difficult part of the assignment]
+- **Step 4: DisplayBackHistory Method**
+    - Used a foreach loop to display titles and URLs.
+    - Counted down positions from the stack size to show the order clearly.
+    - Displayed (No back history) if the stack was empty.
 
-**How you solved it:**
-[Explain your solution approach and what helped you figure it out]
+- **Step 5: DisplayForwardHistory Method**
+    - imilar logic to the back history display.
+    - Counted pages and printed them in order.
+    - Ensured proper message when no forward history existed.
 
-**Most confusing concept:**
-[What was hardest to understand and how you worked through it]
+- **Step 6: ClearHistory Method**
+    - Calculated total cleared pages using both stack counts.
+    - Cleared both backStack and forwardStack.
+    - Displayed confirmation message showing how many pages were removed.
 
-## Code Quality
+---
 
-**What you're most proud of in your implementation:**
-[Highlight the best aspect of your code]
+## Challenges Faced
+- Remembering to clear the forward stack after visiting a new URL.
+- Mixing up which stack to push/pop when going back or forward.
 
-**What you would improve if you had more time:**
-[Identify areas for potential improvement]
+## Overall Reflection
 
-## Testing Approach
-
-**How you tested your implementation:**
-[Describe your overall testing strategy]
-
-**Issues you discovered during testing:**
-[Any bugs or problems you found and fixed]
-
-## Stretch Features
-
-[If you implemented any extra credit features, describe them here. If not, write "None implemented"]
-
-## Time Spent
-
-**Total time:** [X hours]
-
-**Breakdown:**
-
-- Understanding the assignment: [X hours]
-- Implementing the 6 methods: [X hours]
-- Testing and debugging: [X hours]
-- Writing these notes: [X hours]
-
-**Most time-consuming part:** [Which aspect took the longest and why]
+This assignment helped me clearly see how abstract data structures like stacks translate into real-world functionality. Implementing browser navigation gave me a better grasp on how software maintains history states and allows movement between them.
