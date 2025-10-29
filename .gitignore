@@ -13,6 +13,7 @@ dist/
 *.suo
 *.userosscache
 *.sln.docstates
+.sln
 
 # Rider / JetBrains
 .idea/
