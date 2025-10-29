@@ -283,7 +283,7 @@ namespace StackLab
             }
             else
             {
-                poppedItem = actionHistory.Pop();
+                string poppedItem = actionHistory.Pop();
                 undoHistory.Push(poppedItem);
                 totalOperations++;
                 Console.WriteLine($"Redid action: '{poppedItem}'\n");
@@ -301,6 +301,20 @@ namespace StackLab
         // TODO: Step 11 - Implement ShowStatistics method
         static void ShowStatistics()
         {
+            Console.WriteLine("📝 Current Session Summary:");
+            Console.WriteLine($"- Current Stack Size: {actionHistory.Count}");
+            Console.WriteLine($"- Undo Stack Size: {undoHistory.Count}");
+            Console.WriteLine($"- Total operations performed {totalOperations}");
+            if (actionHistory.Count == 0)
+            {
+                Console.WriteLine($"- Stack isEmpty?: Yes");
+                Console.WriteLine("- Current top action: None");
+            }
+            else
+            {
+                Console.WriteLine($"- Stack isEmpty?: No");
+                Console.WriteLine($"- Current top action: {actionHistory.Peek()}");
+            }
             // TODO:
             // Display current session statistics:
             // - Current stack size
@@ -313,6 +327,26 @@ namespace StackLab
         // TODO: Step 12 - Implement ShowSessionSummary method
         static void ShowSessionSummary()
         {
+            Console.WriteLine("📝 Final Session Summary:");
+            Console.WriteLine($"- Total operations performed: {totalOperations}");
+            Console.WriteLine($"- Final Stack Size: {actionHistory.Count}");
+            if (actionHistory.Count > 0)
+            {
+                Console.WriteLine(" - Remaining actions in stack: ");
+                int position = actionHistory.Count;
+                foreach (string action in actionHistory)
+                {
+                    Console.WriteLine($"  {position:D2}. {action}");
+                    position--;
+                }
+            }
+            else
+            {
+                Console.WriteLine("- No remaining actions in stack.");
+            }
+            Console.WriteLine("\nThank you for using the Stack Action History Manager!");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
             // TODO:
             // Show final summary when exiting:
             // - Total operations performed
