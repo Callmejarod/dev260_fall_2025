@@ -139,7 +139,7 @@ namespace QueueLab
             Console.Write("\nChoose operation (number or name): ");
         }
 
-        // TODO Step 2: Handle submitting new tickets (Enqueue)
+        
         static void HandleSubmitTicket()
         {
             Console.WriteLine("\n📝 Submit New Support Ticket");
@@ -192,7 +192,7 @@ namespace QueueLab
             Console.WriteLine($"✅ Success! \nTicket ID: {ticketID}\nDescription: {description}\nQueue Position: {ticketQueue.Count}");
         }
 
-        // TODO Step 3: Handle processing tickets (Dequeue)
+        
         static void HandleProcessTicket()
         {
             if (ticketQueue.Count == 0)
@@ -219,92 +219,141 @@ namespace QueueLab
             }
         }
 
-        // TODO Step 4: Handle peeking at next ticket
+        
         static void HandlePeekNext()
         {
-            // TODO:
-            // 1. Display header "View Next Ticket"
-            // 2. Check if ticketQueue has items (guard clause!)
-            // 3. If empty, show "Queue is empty. No tickets to view" message
-            // 4. If not empty:
-            //    - Use Peek() to look at front ticket without removing it
-            //    - Display "Next ticket to be processed:" message
-            //    - Show ticket details using ToDetailedString() method
-            //    - Show position information (1 of X in queue)
-            // 5. Remember: Peek doesn't modify the queue!
+            Console.WriteLine("\n👀 View Next Ticket");
+
+            if (ticketQueue.Count == 0)
+            {
+                Console.WriteLine("❌ Queue is empty. No tickets to view.\n");
+                return;
+            }
+            SupportTicket nextTicket = ticketQueue.Peek();
+            Console.WriteLine("Next ticket to be processed:");
+            Console.WriteLine(nextTicket.ToDetailedString());
+            Console.WriteLine($"Position: 1 of {ticketQueue.Count}\n");
         }
 
-        // TODO Step 5: Handle displaying the full queue
+        
         static void HandleDisplayQueue()
         {
-            // TODO:
-            // 1. Display header "Current Support Queue (FIFO Order):"
-            // 2. Check if queue is empty
-            // 3. If empty, show "Queue is empty - no tickets waiting" and return
-            // 4. If not empty:
-            //    - Show total ticket count
-            //    - Use foreach to enumerate through queue (front to back order)
-            //    - Display each ticket with position number (01, 02, 03, etc.)
-            //    - Use ToString() method on each ticket for display
-            //    - Mark the first ticket with "← Next" to show it's next to be processed
-            //    - Increment position counter for each ticket
+            Console.WriteLine("Current Support Queue (FIFO Order)");
+
+            if (ticketQueue.Count == 0)
+            {
+                Console.WriteLine("❌ Queue is empty. No tickets to view.\n");
+                return;
+            }
+            Console.WriteLine($"Total tickets in queue: {ticketQueue.Count}");
+            int position = 1;
+            foreach (var ticket in ticketQueue)
+            {
+                string nextMarker = position == 1 ? " < Next" : "";
+                Console.WriteLine($" {position:D2}. {ticket}{nextMarker}");
+                position++;
+            }
+            Console.WriteLine();
         }
 
-        // TODO Step 6: Handle clearing the queue
+        
         static void HandleClearQueue()
         {
-            // TODO:
-            // 1. Display header "Clear All Tickets"
-            // 2. Check if queue is empty
-            // 3. If empty, show "Queue is already empty. Nothing to clear" and return
-            // 4. If not empty:
-            //    - Save current ticket count before clearing
-            //    - Ask for confirmation: "This will remove X tickets. Are you sure? (y/N):"
-            //    - Read user response and convert to lowercase
-            //    - If response is "y" or "yes":
-            //      - Clear the ticketQueue
-            //      - Increment totalOperations
-            //      - Show success message with count of cleared tickets
-            //    - If response is anything else, show "Clear operation cancelled"
+            Console.WriteLine("Clear All Tickets");
+
+            if (ticketQueue.Count == 0)
+            {
+                Console.WriteLine("❌ Queue is empty. Nothing to clear.\n");
+                return;
+            }
+
+            int totalTicketCount = ticketQueue.Count;
+            Console.Write($"This will remove {totalTicketCount} tickets. Are you sure? (y/N):");
+            string? response = Console.ReadLine()?.ToLower() ?? "";
+
+            if (response == "y" || response == "yes")
+            {
+                ticketQueue.Clear();
+                totalOperations++;
+                Console.WriteLine($"✅ Success! {totalTicketCount} tickets have been cleared from the queue.");
+            }
+            else
+            {
+                Console.WriteLine("❌ Clear operation cancelled.");
+            }
         }
 
-        // TODO Step 7: Handle urgent ticket submission (Priority)
+
         static void HandleUrgentTicket()
         {
-            // TODO:
-            // 1. Display header "Submit Urgent Ticket"
-            // 2. Show explanation: "Urgent tickets are processed first!"
-            // 3. Prompt for urgent issue description
-            // 4. Validate description is not empty or whitespace
-            // 5. If empty, show error and return
-            // 6. If valid:
-            //    - Create ticket ID using "U" prefix and ticketCounter (format: "U001", "U002", etc.)
-            //    - Create new SupportTicket with ID, description, "Urgent" priority, and "User"
-            //    - For basic implementation: use regular Enqueue (note: real system would prioritize)
-            //    - Increment ticketCounter and totalOperations
-            //    - Show success message with ticket ID and description
-            //    - Add note explaining that real systems would jump to front of queue
+            Console.WriteLine("\nSubmit Urgent Ticket");
+            Console.WriteLine("Urgent tickets are processed first! BUT NOT YET!");
+
+            Console.Write("Enter urgent issue description: ");
+            string? description = Console.ReadLine()?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                Console.WriteLine("❌ Description cannot be empty. Urgent ticket submission cancled.");
+                return;
+            }
+
+            string ticketID = $"U{ticketCounter:D3}";
+            ticketCounter++;
+
+            SupportTicket UrgentTicket = new SupportTicket(ticketID, description!, "Urgent", "User");
+
+            ticketQueue.Enqueue(UrgentTicket);
+            ticketCounter++;
+            totalOperations++;
+
+            Console.WriteLine($"\n✅ Urgent Ticket ID: {ticketID} submitted successfully!");
+            Console.WriteLine($"Description: {description}");
+            Console.WriteLine($"Position in queue: {ticketQueue.Count}\n");
+            Console.WriteLine($"ℹ️ Note: In a real system, this would jump to the front of the queue.\n");
         }
 
-        // TODO Step 8: Handle searching for tickets
+
         static void HandleSearchTicket()
         {
-            // TODO:
-            // 1. Display header "Search Tickets"
-            // 2. Check if queue is empty
-            // 3. If empty, show "Queue is empty. No tickets to search" and return
-            // 4. If not empty:
-            //    - Prompt for search term: "Enter ticket ID or description keyword:"
-            //    - Validate search term is not empty or whitespace
-            //    - If empty, show error and return
-            //    - Convert search term to lowercase for case-insensitive search
-            //    - Initialize found flag to false and position counter to 1
-            //    - Display "Search results:" header
-            //    - Loop through queue using foreach:
-            //      - Check if ticket ID or description contains search term (use ToLower())
-            //      - If match found, display position and ticket info, set found flag
-            //      - Increment position counter
-            //    - After loop, if no matches found, show "No tickets found matching '[searchterm]'"
+            Console.WriteLine("Search Tickets");
+
+            if (ticketQueue.Count == 0)
+            {
+                Console.WriteLine("❌ Queue is empty. No tickets to search.");
+                return;
+            }
+
+            Console.WriteLine("Enter ticket ID or description keyword:");
+            string? searchTerm = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                Console.WriteLine("❌ Search term cannot be empty. Search cancelled.\n");
+                return;
+            }
+
+            bool found = false;
+            int position = 1;
+
+            Console.WriteLine("\nSearch Results:");
+            foreach(var ticket in ticketQueue)
+            {
+                if (ticket.TicketId.ToLower().Contains(searchTerm.ToLower())
+                || ticket.Description.ToLower().Contains(searchTerm.ToLower()))
+                {
+                    Console.WriteLine($"  {position:D2}. {ticket}");
+                    found = true;
+                }
+                position++;
+            }
+
+            if (!found)
+            {
+                Console.WriteLine($"❌ No tickets found matching '{searchTerm}'\n");
+            }
+
+            Console.WriteLine();
         }
 
         static void HandleQueueStatistics()
