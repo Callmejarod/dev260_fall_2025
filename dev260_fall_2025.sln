@@ -1,0 +1,101 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "labs", "labs", "{908A2AE8-7277-8D33-5900-B70622523C2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assignments", "assignments", "{39D37D13-1A77-DB53-501B-8CF36D38B79E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoopsAndConditionalsLab", "labs\LoopsAndConditionalsLab\LoopsAndConditionalsLab.csproj", "{21012639-571E-F568-C4AB-2536EADEA1F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "week-2-foundations", "week-2-foundations", "{2D1D394B-EDEB-85B4-57DA-52244E151495}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week2Foundations", "assignments\week-2-foundations\Week2Foundations\Week2Foundations.csproj", "{3EE2FAD0-4F8B-5E5F-F803-02949974F392}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "week-3-arrays-sorting", "week-3-arrays-sorting", "{13D7C20D-80C2-8391-2CBE-C29A79ED50D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Week3ArraysSorting", "assignments\week-3-arrays-sorting\Week3ArraysSorting\Week3ArraysSorting.csproj", "{31BA23C6-4847-D976-62CD-095DDFBB0A76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "week-4-linked-lists", "week-4-linked-lists", "{6A726242-4F6F-D095-5970-CD7AF1413E0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "._Assignment3", "assignments\week-4-linked-lists\assignment_3_doubly_linked_lists\._Assignment3.csproj", "{7E9A4F53-AA07-0056-9B87-8920353C90BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev260_week3_starter", "dev260_week3_starter", "{6D699EB2-6B07-0B65-2B16-652592755640}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assignments", "assignments", "{E3E50FD8-D6EC-8499-2B5C-45DC57BB2F35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "._Assignment2", "assignments\week-4-linked-lists\dev260_week3_starter\assignments\assignment_2_base\._Assignment2.csproj", "{B8BE21EE-C955-40F1-39D1-7DA95EA2D605}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "labs", "labs", "{E91C9DB9-0195-57CD-94DA-63B134E616A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "._ArrayDemonstration", "assignments\week-4-linked-lists\dev260_week3_starter\labs\lab-3-arrays\._ArrayDemonstration.csproj", "{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "._SortingDemonstration", "assignments\week-4-linked-lists\dev260_week3_starter\labs\lab-3-sorting\._SortingDemonstration.csproj", "{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab_2_intro", "lab_2_intro", "{C1BE7DFA-EBB4-D14E-FF1F-8FF7AE1E51FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "._DataStructuresIntroLab", "assignments\week-4-linked-lists\dev260_week3_starter\labs\lab_2_intro\DataStructuresIntroLab\._DataStructuresIntroLab.csproj", "{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21012639-571E-F568-C4AB-2536EADEA1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EE2FAD0-4F8B-5E5F-F803-02949974F392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EE2FAD0-4F8B-5E5F-F803-02949974F392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EE2FAD0-4F8B-5E5F-F803-02949974F392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EE2FAD0-4F8B-5E5F-F803-02949974F392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31BA23C6-4847-D976-62CD-095DDFBB0A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31BA23C6-4847-D976-62CD-095DDFBB0A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31BA23C6-4847-D976-62CD-095DDFBB0A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31BA23C6-4847-D976-62CD-095DDFBB0A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9A4F53-AA07-0056-9B87-8920353C90BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9A4F53-AA07-0056-9B87-8920353C90BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9A4F53-AA07-0056-9B87-8920353C90BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9A4F53-AA07-0056-9B87-8920353C90BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BE21EE-C955-40F1-39D1-7DA95EA2D605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BE21EE-C955-40F1-39D1-7DA95EA2D605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BE21EE-C955-40F1-39D1-7DA95EA2D605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BE21EE-C955-40F1-39D1-7DA95EA2D605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21012639-571E-F568-C4AB-2536EADEA1F6} = {908A2AE8-7277-8D33-5900-B70622523C2F}
+		{2D1D394B-EDEB-85B4-57DA-52244E151495} = {39D37D13-1A77-DB53-501B-8CF36D38B79E}
+		{3EE2FAD0-4F8B-5E5F-F803-02949974F392} = {2D1D394B-EDEB-85B4-57DA-52244E151495}
+		{13D7C20D-80C2-8391-2CBE-C29A79ED50D1} = {39D37D13-1A77-DB53-501B-8CF36D38B79E}
+		{31BA23C6-4847-D976-62CD-095DDFBB0A76} = {13D7C20D-80C2-8391-2CBE-C29A79ED50D1}
+		{6A726242-4F6F-D095-5970-CD7AF1413E0A} = {39D37D13-1A77-DB53-501B-8CF36D38B79E}
+		{7E9A4F53-AA07-0056-9B87-8920353C90BE} = {6A726242-4F6F-D095-5970-CD7AF1413E0A}
+		{6D699EB2-6B07-0B65-2B16-652592755640} = {6A726242-4F6F-D095-5970-CD7AF1413E0A}
+		{E3E50FD8-D6EC-8499-2B5C-45DC57BB2F35} = {6D699EB2-6B07-0B65-2B16-652592755640}
+		{B8BE21EE-C955-40F1-39D1-7DA95EA2D605} = {E3E50FD8-D6EC-8499-2B5C-45DC57BB2F35}
+		{E91C9DB9-0195-57CD-94DA-63B134E616A7} = {6D699EB2-6B07-0B65-2B16-652592755640}
+		{B2E646AE-DA56-AAC2-2CA0-B1407C27CE1B} = {E91C9DB9-0195-57CD-94DA-63B134E616A7}
+		{6A14B2F3-57D3-1B2C-BCC8-3B1C9371C5CF} = {E91C9DB9-0195-57CD-94DA-63B134E616A7}
+		{C1BE7DFA-EBB4-D14E-FF1F-8FF7AE1E51FB} = {E91C9DB9-0195-57CD-94DA-63B134E616A7}
+		{B6D3F1F9-947D-6A5A-57DC-2CBB0083517A} = {C1BE7DFA-EBB4-D14E-FF1F-8FF7AE1E51FB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82A97E68-932C-4709-A11A-3DA2C49B733D}
+	EndGlobalSection
+EndGlobal
