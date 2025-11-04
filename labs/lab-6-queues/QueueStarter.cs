@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 /*
 === QUICK REFERENCE GUIDE ===
@@ -41,7 +42,10 @@ namespace QueueLab
     /// </summary>
     class Program
     {
-        // TODO Step 1: Set up your data structures and tracking variables
+        private static Queue<SupportTicket> ticketQueue = new Queue<SupportTicket>();
+        private static int ticketCounter = 1;
+        private static int totalOperations = 0;
+        private static DateTime sessionStart = DateTime.Now;
 
         // Pre-defined ticket options for easy selection during demos
         private static readonly string[] CommonIssues = {
@@ -127,7 +131,7 @@ namespace QueueLab
             string nextTicket = ticketQueue.Count > 0 ? ticketQueue.Peek().TicketId : "None";
 
             Console.WriteLine("┌─ Support Desk Queue Operations ─────────────────┐");
-            Console.WriteLine("│ 1. Submit      │ 2. Process    │ 3. Peek/Next  │");
+            Console.WriteLine("│ 1. Submit      │ 2. Process    │ 3. Peek/Next   │");
             Console.WriteLine("│ 4. Display     │ 5. Urgent     │ 6. Search      │");
             Console.WriteLine("│ 7. Stats       │ 8. Clear      │ 9. Exit        │");
             Console.WriteLine("└─────────────────────────────────────────────────┘");
@@ -170,36 +174,49 @@ namespace QueueLab
                 Console.Write("Enter issue description: ");
                 description = Console.ReadLine()?.Trim() ?? "";
             }
-            
+
             // Input validation with multiple options - professional apps handle user choice
             if (string.IsNullOrWhiteSpace(description))
             {
                 Console.WriteLine("❌ Description cannot be empty. Ticket submission cancelled.\n");
                 return;
             }
-            // TODO:
-            // 1. Create ticket ID using ticketCounter (format: "T001", "T002", etc.)
-            // 2. Create new SupportTicket with ID, description, "Normal" priority, and "User"
-            // 3. Enqueue the ticket to ticketQueue
-            // 4. Increment ticketCounter and totalOperations
-            // 5. Show success message with ticket ID, description, and queue position
+
+            string ticketID = $"T{ticketCounter:D3}";
+            SupportTicket newTicket = new SupportTicket(ticketID, description, "Normal", "User");
+
+            ticketQueue.Enqueue(newTicket);
+            ticketCounter++;
+            totalOperations++;
+
+            Console.WriteLine($"✅ Success! \nTicket ID: {ticketID}\nDescription: {description}\nQueue Position: {ticketQueue.Count}");
         }
 
         // TODO Step 3: Handle processing tickets (Dequeue)
         static void HandleProcessTicket()
         {
-            // TODO:
-            // 1. Display header "Process Next Ticket"
-            // 2. Check if ticketQueue has items (guard clause!)
-            // 3. If empty, show "No tickets in queue to process" message
-            // 4. If not empty:
-            //    - Dequeue the next ticket from front of queue
-            //    - Increment totalOperations
-            //    - Display "Processing ticket:" message
-            //    - Show ticket details using ToDetailedString() method
-            //    - Check if queue still has tickets after dequeue
-            //    - If more tickets exist, show next ticket info using Peek()
-            //    - If queue is now empty, show "all tickets processed" message
+            if (ticketQueue.Count == 0)
+            {
+                Console.WriteLine("\n❌ No tickets in queue to process.\n");
+                return;
+            }
+            else
+            {
+                SupportTicket ticket = ticketQueue.Dequeue();
+                totalOperations++;
+
+                Console.WriteLine("\n🔄 Process Next Ticket");
+                Console.WriteLine(ticket.ToDetailedString());
+
+                if (ticketQueue.Count == 0)
+                {
+                    Console.WriteLine("\n✅ All tickets have been processed!");
+                }
+                else
+                {
+                    Console.WriteLine($"👀 Next ticket: {ticketQueue.Peek().TicketId} - {ticketQueue.Peek().Description}\n");
+                }
+            }
         }
 
         // TODO Step 4: Handle peeking at next ticket
