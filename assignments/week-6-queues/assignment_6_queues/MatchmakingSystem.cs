@@ -85,10 +85,30 @@ namespace Assignment6
         /// </summary>
         public void AddToQueue(Player player, GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Use switch statement on mode to select correct queue
-            // Don't forget to call player.JoinQueue()!
-            throw new NotImplementedException("AddToQueue method not yet implemented");
+            switch (mode)
+            {
+                // casual
+                case GameMode.Casual:
+                    casualQueue.Enqueue(player);
+                    player.JoinQueue();
+                    break;
+                // ranked
+                case GameMode.Ranked:
+                    rankedQueue.Enqueue(player);
+                    player.JoinQueue();
+
+                    break;
+                // Quickplay
+                case GameMode.QuickPlay:
+                    quickPlayQueue.Enqueue(player);
+                    player.JoinQueue();
+
+                    break;
+                // invalid input
+                default:
+                    Console.WriteLine("❌ Error adding to queue. Invalid choice.");
+                    break;
+            }
         }
 
         /// <summary>
@@ -97,7 +117,7 @@ namespace Assignment6
         /// Requirements:
         /// - Return null if not enough players (need at least 2)
         /// - For Casual: Any two players can match (simple FIFO)
-        /// - For Ranked: Only players within ±2 skill levels can match
+        /// -  
         /// - For QuickPlay: Prefer skill matching, but allow any match if queue > 4 players
         /// - Remove matched players from queue and call LeaveQueue() on them
         /// - Return new Match object if successful
@@ -171,9 +191,56 @@ namespace Assignment6
         /// </summary>
         public string GetQueueEstimate(GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Check queue counts and apply mode-specific logic
-            throw new NotImplementedException("GetQueueEstimate method not yet implemented");
+            switch (mode)
+            {
+                // casual 
+                case GameMode.Casual:
+                    if (casualQueue.Count >= 2)
+                    {
+                        return "No wait";
+                    }
+                    else if (casualQueue.Count == 1)
+                    {
+                        return "Short wait";
+                    }
+                    else
+                    {
+                        return "Long wait";
+                    }
+                    
+                // ranked
+                case GameMode.Ranked:
+                    if (rankedQueue.Count >= 2)
+                    {
+                        return "Short wait";
+                    }
+                    else if (rankedQueue.Count == 1)
+                    {
+                        return "Long wait";
+                    }
+                    else
+                    {
+                        return "Very long wait (No players in the queue.)";
+                    }
+
+                // quickplay
+                case GameMode.QuickPlay:
+                    if (quickPlayQueue.Count >= 2)
+                    {
+                        return "No wait";
+                    }
+                    else if (quickPlayQueue.Count == 1)
+                    {
+                        return "Short wait";
+                    }
+                    else
+                    {
+                        return "Long wait";
+                    }
+
+                default:
+                    return "Unknown";
+            }
         }
 
         // ============================================
