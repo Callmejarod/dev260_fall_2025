@@ -265,9 +265,11 @@ namespace Assignment6
         /// </summary>
         public void DisplayQueueStatus()
         {
-            // TODO: Implement this method
-            // Hint: Loop through each queue and display formatted information
-            throw new NotImplementedException("DisplayQueueStatus method not yet implemented");
+            Console.WriteLine("\nCurrent Queue Status\n");
+
+            DisplaySingleQueue("Casual", casualQueue);
+            DisplaySingleQueue("Ranked", rankedQueue);
+            DisplaySingleQueue("Quick play", quickPlayQueue);
         }
 
         /// <summary>
@@ -400,7 +402,7 @@ namespace Assignment6
                 _ => throw new ArgumentException($"Unknown game mode: {mode}")
             };
         }
-   
+
         /// <summary>
         /// Helper: Extract two players from the queue to find a ranked match
         /// </summary>
@@ -418,10 +420,34 @@ namespace Assignment6
 
             queue.Clear();
 
-            foreach(var player in newQueue)
+            foreach (var player in newQueue)
             {
                 queue.Enqueue(player);
             }
-        } 
+        }
+
+        /// <summary>
+        /// Helper: Display's a single queue's players
+        /// </summary>
+        private void DisplaySingleQueue(string queueName, Queue<Player> queue)
+        {
+            Console.WriteLine($"{queueName} Queue ({queue.Count} player{(queue.Count == 1 ? "" : "s")}):");
+
+            if (queue.Count == 0)
+            {
+                Console.WriteLine("No players in queue.\n");
+                return;
+            }
+
+            // Player positions
+            int position = 1;
+            foreach (var player in queue)
+            {
+                Console.WriteLine($"     {position}. {player.Username}      Queue Time: {player.GetQueueTime()}");
+                position++;
+            }
+
+            Console.WriteLine();
+        }
     }
 }
