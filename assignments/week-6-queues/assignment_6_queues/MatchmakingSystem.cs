@@ -1,4 +1,6 @@
+using System.Diagnostics.Metrics;
 using System.Security;
+using System.Text.RegularExpressions;
 
 namespace Assignment6
 {
@@ -283,9 +285,39 @@ namespace Assignment6
         /// </summary>
         public void DisplayPlayerStats(Player player)
         {
-            // TODO: Implement this method
-            // Hint: Combine player info with match history filtering
-            throw new NotImplementedException("DisplayPlayerStats method not yet implemented");
+            Console.WriteLine();
+            Console.WriteLine(player.ToDetailedString());
+            Console.WriteLine($"Currently in Queue: {(PlayerInQueue(player) ? "✅ YES" : "❌ NO")}");
+        
+            if (player.LastMatchTime == DateTime.MinValue)
+            {
+                Console.WriteLine("No match history.");
+            }
+            else
+            {
+                List<Match> playerMatchHistory = new List<Match>();
+
+                Console.WriteLine("\nMatch History:");
+
+                for (int i = 0; i < matchHistory.Count; i++)
+                {
+                    if (playerMatchHistory.Count == 3)
+                    {
+                        break;
+                    }
+
+                    if (matchHistory[i].Player1 == player || matchHistory[i].Player2 == player)
+                    {
+                        playerMatchHistory.Add(matchHistory[i]);
+                    }
+                }
+
+                foreach(Match playerMatch in playerMatchHistory)
+                {
+                    Console.WriteLine(playerMatch.ToString());
+                }
+            }
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -449,5 +481,24 @@ namespace Assignment6
 
             Console.WriteLine();
         }
+    
+        /// <summary>
+        /// Helper: Bool to see if player is a queue or not
+        /// </summary>
+        private bool PlayerInQueue(Player player)
+        {
+            List<Queue<Player>> queueList = [casualQueue, rankedQueue, quickPlayQueue];
+
+            foreach (Queue<Player> queue in queueList)
+            {
+                if (queue.Contains(player))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        } 
     }
 }
