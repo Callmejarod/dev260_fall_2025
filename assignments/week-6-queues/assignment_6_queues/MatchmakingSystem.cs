@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace Assignment6
 {
     /// <summary>
@@ -124,10 +126,106 @@ namespace Assignment6
         /// </summary>
         public Match? TryCreateMatch(GameMode mode)
         {
-            // TODO: Implement this method
-            // Hint: Different logic needed for each mode
-            // Remember to check queue count first!
-            throw new NotImplementedException("TryCreateMatch method not yet implemented");
+            switch(mode)
+            {
+                // Casual matches
+                case GameMode.Casual:
+                    if (casualQueue.Count < 2)
+                    {
+                        return null;
+                    }
+
+                    // Remove matched players from queue
+                    Player casualPlayer1 = casualQueue.Dequeue();
+                    Player casualPlayer2 = casualQueue.Dequeue();
+
+                    casualPlayer1.LeaveQueue();
+                    casualPlayer2.LeaveQueue();
+
+                    return new Match(casualPlayer1, casualPlayer2, GameMode.Casual);
+
+                // Ranked matches
+                case GameMode.Ranked:
+                    if (rankedQueue.Count < 2)
+                    {
+                        return null;
+                    }
+
+                    // Convert to list for indexing
+                    List<Player> rankedPlayers = rankedQueue.ToList();
+
+                    // Players within ±2 skill levels can match
+                    for (int i = 0; i < rankedPlayers.Count; i++)
+                    {
+                        for (int j = i + 1; j < rankedPlayers.Count; j++)
+                        {
+                            Player rankedPlayer1 = rankedPlayers[i];
+                            Player rankedPlayer2 = rankedPlayers[j];
+
+                            // Take the absolute value from subtracting the two skill ratings
+                            if (Math.Abs(rankedPlayer1.SkillRating - rankedPlayer2.SkillRating) <= 2)
+                            {
+                                RemovePlayersFromQueue(rankedQueue, rankedPlayer1, rankedPlayer2);
+
+                                rankedPlayer1.LeaveQueue();
+                                rankedPlayer2.LeaveQueue();
+
+                                return new Match(rankedPlayer1, rankedPlayer2, GameMode.Ranked);
+                            }
+                        }
+                    }
+                    // Return null if no players are within the acceptable skill range
+                    return null;
+
+                // Quickplay matches
+                case GameMode.QuickPlay:
+                    if (quickPlayQueue.Count < 2)
+                    {
+                        return null;
+                    }
+
+                    Player quickPlayer1;
+                    Player quickPlayer2;
+
+                    // Allow any match if the queue is greater than 4 players
+                    if (quickPlayQueue.Count > 4)
+                    {
+                        quickPlayer1 = quickPlayQueue.Dequeue();
+                        quickPlayer2 = quickPlayQueue.Dequeue();
+
+                        quickPlayer1.LeaveQueue();
+                        quickPlayer2.LeaveQueue();
+
+                        return new Match(quickPlayer1, quickPlayer2, GameMode.QuickPlay);
+                    }
+
+                    // prefered skill matching
+                    List<Player> quickPlayers = quickPlayQueue.ToList();
+
+                    for (int i = 0; i < quickPlayers.Count; i++)
+                    {
+                        for (int j = i + 1; j < quickPlayers.Count; j++)
+                        {
+                            quickPlayer1 = quickPlayers[i];
+                            quickPlayer2 = quickPlayers[j];
+
+                            if (Math.Abs(quickPlayer1.SkillRating - quickPlayer2.SkillRating) <= 2)
+                            {
+                                RemovePlayersFromQueue(quickPlayQueue, quickPlayer1, quickPlayer2);
+
+                                quickPlayer1.LeaveQueue();
+                                quickPlayer2.LeaveQueue();
+
+                                return new Match(quickPlayer1, quickPlayer2, GameMode.QuickPlay);
+                            }
+                        }
+                    }
+
+                    return null;
+                
+                default:
+                    return null;
+            }
         }
 
         /// <summary>
@@ -141,9 +239,17 @@ namespace Assignment6
         /// </summary>
         public void ProcessMatch(Match match)
         {
-            // TODO: Implement this method
-            // Hint: Very straightforward - simulate, record, display
-            throw new NotImplementedException("ProcessMatch method not yet implemented");
+            match.SimulateOutcome();
+
+            matchHistory.Add(match);
+
+            totalMatches++;
+
+            // display match results 
+            Console.WriteLine("\nMatch Results:\n");
+            Console.WriteLine($"Winner: {match.Winner}");
+            Console.WriteLine($"Loser: {match.Loser}");
+            Console.WriteLine($"Match Time: {match.MatchTime}\n");
         }
 
         /// <summary>
@@ -294,5 +400,28 @@ namespace Assignment6
                 _ => throw new ArgumentException($"Unknown game mode: {mode}")
             };
         }
+   
+        /// <summary>
+        /// Helper: Extract two players from the queue to find a ranked match
+        /// </summary>
+        private void RemovePlayersFromQueue(Queue<Player> queue, Player player1, Player player2)
+        {
+            Queue<Player> newQueue = new Queue<Player>();
+
+            foreach (var player in queue)
+            {
+                if (player != player1 && player != player2)
+                {
+                    newQueue.Enqueue(player);
+                }
+            }
+
+            queue.Clear();
+
+            foreach(var player in newQueue)
+            {
+                queue.Enqueue(player);
+            }
+        } 
     }
 }
