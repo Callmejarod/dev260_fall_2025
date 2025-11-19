@@ -120,11 +120,26 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            int originalCount = emailList.Count;
+
+            // case insensitive HashSet to store unique emails
+            var uniqueEmailSet = new HashSet<string>(emailList, StringComparer.OrdinalIgnoreCase);
+
+            // clear and repopulate the uniqueEmails set
+            emailList.Clear();
+            emailList.AddRange(uniqueEmailSet);
+
+            // how many duplicates were removed
+            int dupsRemoved = originalCount - uniqueEmailSet.Count;
+
+            return dupsRemoved;
+
+
             // TODO: Implement this method
             // Hint: Create HashSet with StringComparer.OrdinalIgnoreCase
             // Compare original count with HashSet count to find duplicates removed
 
-            throw new NotImplementedException("DeduplicateEmails method needs implementation");
+            // throw new NotImplementedException("DeduplicateEmails method needs implementation");
         }
 
         /// <summary>
@@ -144,11 +159,19 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            // Defensive check: does user exist?
+            if (!userPermissions.ContainsKey(userId))
+            {
+                return false;
+            }
+
+            return userPermissions[userId].Contains(permission);
+
             // TODO: Implement this method
             // Hint: Check if user exists in userPermissions dictionary first
             // Then use Contains() on their permission set
 
-            throw new NotImplementedException("HasPermission method needs implementation");
+            // throw new NotImplementedException("HasPermission method needs implementation");
         }
 
         /// <summary>
@@ -168,11 +191,26 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            if(!userPermissions.ContainsKey(userId))
+            {
+                userPermissions[userId] = new HashSet<string>();
+            }
+
+            // get current permission count
+            int currentCount = userPermissions[userId].Count;
+
+            // merges sets and avoid duplications
+            userPermissions[userId].UnionWith(newPermissions);
+
+            int newPermissionsCount = userPermissions[userId].Count - currentCount;
+
+            return newPermissionsCount;
+
             // TODO: Implement this method
             // Hint: Get current permission count, use UnionWith(), compare counts
             // Create new HashSet for user if they don't exist
 
-            throw new NotImplementedException("AddPermissions method needs implementation");
+            // throw new NotImplementedException("AddPermissions method needs implementation");
         }
 
         /// <summary>
@@ -192,11 +230,25 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            if (!userPermissions.ContainsKey(userId))
+            {
+                return requiredPermissions; // user not found
+            }
+
+            if (!requiredPermissions.IsSubsetOf(userPermissions[userId]))
+            {
+                requiredPermissions.ExceptWith(userPermissions[userId]);
+                return requiredPermissions;
+            }
+            else
+            {
+                return new HashSet<string>(); // return empty set if fully authorized
+            }
             // TODO: Implement this method
             // Hint: Use ExceptWith() to find permissions in required but not in user's set
             // Return new HashSet with missing permissions
 
-            throw new NotImplementedException("GetMissingPermissions method needs implementation");
+            // throw new NotImplementedException("GetMissingPermissions method needs implementation");
         }
 
         /// <summary>
@@ -214,11 +266,15 @@ namespace Lab8_Sets
         public HashSet<string> FindNewStudents()
         {
             totalOperations++;
+            
+            var newStudents = new HashSet<string>(enrolledNow);
+            newStudents.ExceptWith(enrolledLastQuarter);
 
+            return newStudents;
             // TODO: Implement this method
             // Hint: Create copy of enrolledNow, then use ExceptWith(enrolledLastQuarter)
 
-            throw new NotImplementedException("FindNewStudents method needs implementation");
+            // throw new NotImplementedException("FindNewStudents method needs implementation");
         }
 
         /// <summary>
@@ -237,10 +293,16 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            var dropped = new HashSet<string>(enrolledLastQuarter);
+
+            dropped.ExceptWith(enrolledNow);
+
+            return dropped;
+
             // TODO: Implement this method
             // Hint: Create copy of enrolledLastQuarter, then use ExceptWith(enrolledNow)
 
-            throw new NotImplementedException("FindDroppedStudents method needs implementation");
+            // throw new NotImplementedException("FindDroppedStudents method needs implementation");
         }
 
         /// <summary>
@@ -259,6 +321,11 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            var continuingStudents = new HashSet<string>(enrolledNow);
+
+            continuingStudents.IntersectWith(enrolledLastQuarter);
+
+            return continuingStudents;
             // TODO: Implement this method
             // Hint: Create copy of enrolledNow, then use IntersectWith(enrolledLastQuarter)
 
@@ -282,11 +349,22 @@ namespace Lab8_Sets
         {
             totalOperations++;
 
+            if (enrolledLastQuarter.Count == 0)
+            {
+                return 0.0; // Avoid division by zero
+            }
+
+            int continuingStudentsCount = FindContinuingStudents().Count;
+            int lastQuarterStudentsCount = enrolledLastQuarter.Count;
+
+            double retentionRatePercentage = ((double)continuingStudentsCount / lastQuarterStudentsCount) * 100;
+
+            return retentionRatePercentage;
             // TODO: Implement this method
             // Hint: Use FindContinuingStudents() method you implemented
             // Calculate: (continuing count / last quarter count) * 100
 
-            throw new NotImplementedException("CalculateRetentionRate method needs implementation");
+            // throw new NotImplementedException("CalculateRetentionRate method needs implementation");
         }
 
         public void RunInteractiveMenu()
