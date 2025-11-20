@@ -1,85 +1,86 @@
 # Assignment 8: Spell Checker & Vocabulary Explorer - Implementation Notes
 
-**Name:** [Your Name]
+**Name:** Jarod Atienzo
 
 ## HashSet Pattern Understanding
 
 **How HashSet<T> operations work for spell checking:**
-[Explain your understanding of how O(1) lookups, automatic uniqueness, and set-based categorization work together for efficient text analysis]
+HashSet<T> allows O(1) membership testing, which means checking whether a word exists in the dictionary is extremely fast regardless of the dictionary size. Additionally, HashSet automatically enforces uniqueness, so I didn’t need to manually filter out duplicate words from the text. By using HashSet for `uniqueWordsInText`, `correctlySpelledWords`, and `misspelledWords`, I could efficiently categorize words into correct and incorrect groups without worrying about duplicates.
 
 ## Challenges and Solutions
 
 **Biggest challenge faced:**
-[Describe the most difficult part of the assignment - was it text normalization, HashSet operations, or file I/O handling?]
+The most challenging part of the assignment was ensuring consistent text normalization. Words in the text could have different cases, punctuation, or whitespace, and I needed to make sure both the dictionary and the analyzed text were normalized the same way for accurate spell checking.
 
 **How you solved it:**
-[Explain your solution approach and what helped you figure it out]
+I used the `NormalizeWord` helper method that trims whitespace, removes punctuation using Regex, and converts words to lowercase using `ToLowerInvariant()`. I applied this both when loading the dictionary and when analyzing the text. This ensured all comparisons were consistent and avoided false misspellings.
 
 **Most confusing concept:**
-[What was hardest to understand about HashSet operations, text processing, or case-insensitive comparisons?]
-
+Understanding the relationship between normalized text and dictionary lookups was initially confusing. I also had to carefully remember that `HashSet.Contains()` is case-sensitive unless you either normalize words or use `StringComparer.OrdinalIgnoreCase`.
 ## Code Quality
 
 **What you're most proud of in your implementation:**
-[Highlight the best aspect of your code - maybe your normalization strategy, error handling, or efficient text analysis]
+I’m proud of the consistent normalization strategy and the clean categorization logic using HashSets. The code gracefully handles missing files, duplicates, and maintains accurate counts of correctly spelled versus misspelled words.
 
 **What you would improve if you had more time:**
-[Identify areas for potential improvement - perhaps better tokenization, more robust error handling, or additional features]
+I would expand the dictionary with a more comprehensive word list to reduce false positives and possibly implement more advanced tokenization that handles hyphenated words, contractions, and numbers more accurately.
 
 ## Testing Approach
 
 **How you tested your implementation:**
-[Describe your overall testing strategy - how did you verify spell checking worked correctly?]
+I manually tested each feature by analyzing multiple text files with known correctly spelled and intentionally misspelled words.
 
 **Test scenarios you used:**
-[List specific scenarios you tested, like mixed case words, punctuation handling, edge cases, etc.]
+- Words with different capitalization (e.g., `Dog` vs `dog`)  
+- Words with punctuation attached (e.g., `fox.` or `jumps!`)  
+- Words repeated multiple times to test counting logic  
 
 **Issues you discovered during testing:**
-[Any bugs or problems you found and fixed during development]
+The biggest issue was that some words were incorrectly categorized as misspelled because the dictionary file was small. I also had to make sure `NormalizeWord` was applied consistently to avoid false negatives.
 
 ## HashSet vs List Understanding
 
 **When to use HashSet:**
-[Explain when you would choose HashSet over List based on your experience]
+HashSet is ideal when you need fast membership testing and automatic uniqueness, like checking if a word exists in a dictionary or storing unique words from a text.
 
 **When to use List:**
-[Explain when List is more appropriate than HashSet]
+List is more appropriate when the order of elements matters, duplicates are allowed, or you need to preserve all occurrences of words, such as `allWordsInText` which tracks every word including duplicates.
 
 **Performance benefits observed:**
-[Describe how O(1) lookups and automatic uniqueness helped your implementation]
+Using HashSet allowed O(1) lookups and automatic removal of duplicates, making the categorization of words extremely efficient even with larger texts.
 
 ## Real-World Applications
 
 **How this relates to actual spell checkers:**
-[Describe how your implementation connects to tools like Microsoft Word, Google Docs, etc.]
+This assignment mirrors the behavior of real-world spell checkers like Microsoft Word and Google Docs, which must quickly check each word against a dictionary and provide feedback on spelling errors.
 
 **What you learned about text processing:**
-[What insights did you gain about handling real-world text data and normalization?]
+I learned the importance of normalization, tokenization, and handling edge cases such as punctuation and varying capitalization. Consistency is key to accurate text analysis.
 
 ## Stretch Features
 
-[If you implemented any extra credit features like vocabulary suggestions or advanced analytics, describe them here. If not, write "None implemented"]
+None implemented.
 
 ## Time Spent
 
-**Total time:** [X hours]
+**Total time:** 6 hours
 
 **Breakdown:**
-- Understanding HashSet concepts and assignment requirements: [X hours]
-- Implementing the 6 core methods: [X hours]
-- Testing different text files and scenarios: [X hours]
-- Debugging and fixing issues: [X hours]
-- Writing these notes: [X hours]
+- Understanding HashSet concepts and assignment requirements: 1 hour
+- Implementing the 6 core methods: 2 hours
+- Testing different text files and scenarios: 1.5 hours
+- Debugging and fixing issues: 1 hour
+- Writing these notes: 0.5 hours
 
-**Most time-consuming part:** [Which aspect took the longest and why - text normalization, HashSet operations, file I/O, etc.]
+**Most time-consuming part:** Text normalization and ensuring consistent comparisons between dictionary words and analyzed text was the most time-consuming aspect.
 
 ## Key Learning Outcomes
 
 **HashSet concepts learned:**
-[What did you learn about O(1) performance, automatic uniqueness, and set-based operations?]
+I learned how O(1) performance, automatic uniqueness, and set-based operations can dramatically simplify text analysis tasks like spell checking and word categorization.
 
 **Text processing insights:**
-[What did you learn about normalization, tokenization, and handling real-world text data?]
+I gained practical experience with normalization, tokenization, and using Regex to clean text. I also learned how subtle differences in capitalization or punctuation can affect text processing.
 
 **Software engineering practices:**
-[What did you learn about error handling, user interfaces, and defensive programming?]
+I reinforced the importance of defensive programming, error handling, and consistent helper methods. I also improved my approach to structuring code for clarity and maintainability.
