@@ -87,7 +87,7 @@ namespace Assignment8
 
                 foreach(string word in words)
                 {
-                    string cleanedWords = word.Trim().ToLowerInvariant();
+                    string cleanedWords = NormalizeWord(word);
                     dictionary.Add(cleanedWords);
                 }
 
@@ -137,7 +137,7 @@ namespace Assignment8
 
                 foreach(string token in tokens)
                 {
-                    string word = token.Trim().ToLowerInvariant();
+                    string word = NormalizeWord(token);
 
                     allWordsInText.Add(word);
                     uniqueWordsInText.Add(word);
@@ -259,12 +259,16 @@ namespace Assignment8
         /// </summary>
         public List<string> GetMisspelledWords(int maxResults = 50)
         {
-            // TODO: Implement misspelled words retrieval
-            // Hint: Convert misspelledWords to List, then use OrderBy()
-            // Hint: Use Take(maxResults) to limit results if needed
-            // Hint: Return empty list if no text has been analyzed
-            
-            throw new NotImplementedException("GetMisspelledWords method not yet implemented");
+            if (string.IsNullOrEmpty(currentFileName))
+            {
+                return new List<string>();
+            }
+
+            List<string> misspelledWordsList = misspelledWords.ToList();
+
+            misspelledWordsList.Sort();
+
+            return misspelledWordsList.Take(maxResults).ToList();
         }
         
         /// <summary>
@@ -284,11 +288,16 @@ namespace Assignment8
         /// </summary>
         public List<string> GetUniqueWordsSample(int maxResults = 20)
         {
-            // TODO: Implement unique words sample retrieval
-            // Hint: Similar to GetMisspelledWords but use uniqueWordsInText
-            // Hint: Consider showing a mix of correct and misspelled words
-            
-            throw new NotImplementedException("GetUniqueWordsSample method not yet implemented");
+            if (string.IsNullOrEmpty(currentFileName))
+            {
+                return new List<string>();
+            }
+
+            List<string> uniqueWordsList = uniqueWordsInText.ToList();
+
+            uniqueWordsList.Sort();
+
+            return uniqueWordsList.Take(maxResults).ToList();
         }
         
         // Helper method for consistent word normalization
