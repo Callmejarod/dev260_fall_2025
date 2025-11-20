@@ -143,6 +143,8 @@ namespace Assignment8
                     uniqueWordsInText.Add(word);
                 }
 
+                currentFileName = filename;
+
                 return true;
             }
             catch (FileNotFoundException)
@@ -170,12 +172,26 @@ namespace Assignment8
         /// </summary>
         public void CategorizeWords()
         {
-            // TODO: Implement word categorization
-            // Hint: Clear both correctlySpelledWords and misspelledWords first
-            // Hint: Use a foreach loop over uniqueWordsInText
-            // Hint: Use dictionary.Contains(word) for fast lookup
-            
-            throw new NotImplementedException("CategorizeWords method not yet implemented");
+
+            // Check if sets are empty
+            if (correctlySpelledWords.Count != 0 || misspelledWords.Count != 0)
+            {
+                correctlySpelledWords.Clear();
+                misspelledWords.Clear();
+            }
+
+            // Iterate through and check the dictionary
+            foreach (string word in uniqueWordsInText)
+            {
+                if (dictionary.Contains(word))
+                {
+                    correctlySpelledWords.Add(word);
+                }
+                else
+                {
+                    misspelledWords.Add(word);
+                }
+            }
         }
         
         /// <summary>
