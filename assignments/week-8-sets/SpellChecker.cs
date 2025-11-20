@@ -212,12 +212,34 @@ namespace Assignment8
         /// </summary>
         public (bool inDictionary, bool inText, int occurrences) CheckWord(string word)
         {
-            // TODO: Implement individual word checking
-            // Hint: Normalize the word using the same method as other operations
-            // Hint: Use dictionary.Contains() and uniqueWordsInText.Contains()
-            // Hint: Use allWordsInText.Count(w => w.Equals(normalizedWord, StringComparison.OrdinalIgnoreCase))
-            
-            throw new NotImplementedException("CheckWord method not yet implemented");
+            bool inDictionary = false;
+            bool inText = false;
+            int occurences = 0;
+
+            string normalizedWord = NormalizeWord(word);
+
+            if (dictionary.Contains(normalizedWord))
+            {
+                inDictionary = true;
+            }
+
+            if (!string.IsNullOrEmpty(currentFileName))
+            {
+                if (uniqueWordsInText.Contains(normalizedWord))
+                {
+                    inText = true;
+                    
+                    foreach (string w in allWordsInText)
+                    {
+                        if(w == normalizedWord)
+                        {
+                            occurences++;
+                        }
+                    }
+                }
+            }
+
+            return (inDictionary, inText, occurences);
         }
         
         /// <summary>
