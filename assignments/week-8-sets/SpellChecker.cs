@@ -79,12 +79,32 @@ namespace Assignment8
         /// </summary>
         public bool LoadDictionary(string filename)
         {
+            try
+            {
+                dictionary = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                string[] words = File.ReadAllLines(filename);
+
+                foreach(string word in words)
+                {
+                    string cleanedWords = word.Trim().ToLowerInvariant();
+                    dictionary.Add(cleanedWords);
+                }
+
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Dictionary file not found: {filename}");
+                return false;
+            }
+
+
             // TODO: Implement dictionary loading
             // Hint: Use File.ReadAllLines() and handle FileNotFoundException
             // Hint: Use string.Trim() and string.ToLowerInvariant() for normalization
             // Hint: dictionary.Add() will automatically handle duplicates
             
-            throw new NotImplementedException("LoadDictionary method not yet implemented");
         }
         
         /// <summary>
