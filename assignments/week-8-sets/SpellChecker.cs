@@ -98,13 +98,6 @@ namespace Assignment8
                 Console.WriteLine($"Dictionary file not found: {filename}");
                 return false;
             }
-
-
-            // TODO: Implement dictionary loading
-            // Hint: Use File.ReadAllLines() and handle FileNotFoundException
-            // Hint: Use string.Trim() and string.ToLowerInvariant() for normalization
-            // Hint: dictionary.Add() will automatically handle duplicates
-            
         }
         
         /// <summary>
@@ -127,13 +120,37 @@ namespace Assignment8
         /// </summary>
         public bool AnalyzeTextFile(string filename)
         {
-            // TODO: Implement text file analysis
-            // Hint: Use File.ReadAllText() to read entire file
-            // Hint: Split on char[] { ' ', '\t', '\n', '\r' } for simple tokenization
-            // Hint: Use Regex.Replace to remove punctuation: @"[^\w\s]" -> ""
-            // Hint: Filter out empty strings after processing
+            try
+            {
+                var fileContent = File.ReadAllText(filename);
+
+                // Remove all punctuation and symbols, leaving only letters, numbers, and whitespace.
+                string cleanedText = Regex.Replace(fileContent, @"[^\w\s]", " ");
+
+                // Split the cleaned text into individual words using whitespace as separators.
+                // StringSplitOptions.RemoveEmptyEntries removes any empty entries (e.g., "" caused by multiple spaces).                
+                string[] tokens = cleanedText.Split(new char[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // 
+                allWordsInText = new List<string>();
+                uniqueWordsInText = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                foreach(string token in tokens)
+                {
+                    string word = token.Trim().ToLowerInvariant();
+
+                    allWordsInText.Add(word);
+                    uniqueWordsInText.Add(word);
+                }
+
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"Text file not found: {filename}");
+                return false;
+            }
             
-            throw new NotImplementedException("AnalyzeTextFile method not yet implemented");
         }
         
         /// <summary>
