@@ -215,11 +215,7 @@ namespace Lab9_BST
         {
             totalOperations++;
             
-            // TODO: Implement this method
-            // Hint: Use CountRecursive helper method
-            // return CountRecursive(root);
-            
-            throw new NotImplementedException("Count method needs implementation");
+            return CountRecursive(root);
         }
         
         // ============================================
@@ -279,7 +275,7 @@ namespace Lab9_BST
             {
                 return SearchRecursive(node.Right, employeeId); // Go right
             }
-            
+
         }
         
         private void InOrderRecursive(TreeNode? node)
@@ -292,10 +288,12 @@ namespace Lab9_BST
         
         private int CountRecursive(TreeNode? node)
         {
-            // TODO: Implement recursive counting
-            // Base case: if node is null, return 0
-            // Recursive case: 1 + count(left) + count(right)
-            throw new NotImplementedException("CountRecursive helper method needs implementation");
+            if (node == null)
+            {
+                return 0;
+            }
+
+            return 1 + CountRecursive(node.Left) + CountRecursive(node.Right);
         }
         
         // ============================================
