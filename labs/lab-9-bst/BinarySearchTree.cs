@@ -176,7 +176,7 @@ namespace Lab9_BST
             } 
 
             TreeNode current = root;
-            
+
             while (current.Left != null)
             {
                 current = current.Left;
@@ -202,10 +202,20 @@ namespace Lab9_BST
         {
             totalOperations++;
             
-            // TODO: Implement this method
-            // Hint: Keep going right until you can't go anymore
-            
-            throw new NotImplementedException("FindMaximum method needs implementation");
+            if (root == null)
+            {
+                return null;
+            }
+
+            TreeNode current = root;
+
+            while (current.Right != null)
+            {
+                current = current.Right;
+            }
+
+            return current.Employee;
+
         }
         
         /// <summary>
