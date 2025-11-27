@@ -96,12 +96,9 @@ namespace Lab9_BST
         public void Insert(Employee employee)
         {
             totalOperations++;
+
+            root = InsertRecursive(root, employee);
             
-            // TODO: Implement this method
-            // Hint: Use InsertRecursive helper method
-            // root = InsertRecursive(root, employee);
-            
-            throw new NotImplementedException("Insert method needs implementation");
         }
         
         /// <summary>
@@ -121,11 +118,7 @@ namespace Lab9_BST
         {
             totalOperations++;
             
-            // TODO: Implement this method
-            // Hint: Use SearchRecursive helper method
-            // return SearchRecursive(root, employeeId);
-            
-            throw new NotImplementedException("Search method needs implementation");
+            return SearchRecursive(root, employeeId);
         }
         
         /// <summary>
@@ -238,7 +231,28 @@ namespace Lab9_BST
             // TODO: Implement recursive insertion logic
             // Base case: if node is null, create new node
             // Recursive case: compare IDs and go left or right
-            throw new NotImplementedException("InsertRecursive helper method needs implementation");
+            // throw new NotImplementedException("InsertRecursive helper method needs implementation");
+
+            if (node == null)
+            {
+                return new TreeNode(employee);
+            }
+
+            if (employee.EmployeeId < node.Employee.EmployeeId)
+            {
+                // Go left for smaller id values
+                node.Left = InsertRecursive(node.Left, employee);
+            }
+            else if (employee.EmployeeId > node.Employee.EmployeeId)
+            {
+                // Go right for larger id values
+                node.Right = InsertRecursive(node.Right, employee);
+            }
+            
+            // For this quick lab we will ignore duplicates.
+            // For any other assignment, handling duplicates would be done here.
+            return node;
+
         }
         
         private Employee? SearchRecursive(TreeNode? node, int employeeId)
@@ -247,7 +261,25 @@ namespace Lab9_BST
             // Base case: if node is null, return null (not found)
             // Base case: if node matches, return employee
             // Recursive case: compare IDs and go left or right
-            throw new NotImplementedException("SearchRecursive helper method needs implementation");
+            // throw new NotImplementedException("SearchRecursive helper method needs implementation");
+            if (node == null)
+            {
+                return null;
+            }
+
+            if (employeeId == node.Employee.EmployeeId)
+            {
+                return node.Employee; // found
+            }
+            else if (employeeId < node.Employee.EmployeeId)
+            {
+                return SearchRecursive(node.Left, employeeId); // Go left
+            }
+            else
+            {
+                return SearchRecursive(node.Right, employeeId); // Go right
+            }
+            
         }
         
         private void InOrderRecursive(TreeNode? node)
