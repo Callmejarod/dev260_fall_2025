@@ -144,12 +144,8 @@ namespace Lab9_BST
                 Console.WriteLine("   (No employees in system)");
                 return;
             }
-            
-            // TODO: Implement this method
-            // Hint: Use InOrderRecursive helper method
-            // InOrderRecursive(root);
-            
-            throw new NotImplementedException("InOrderTraversal method needs implementation");
+
+            InOrderRecursive(root);
         }
         
         /// <summary>
@@ -172,7 +168,21 @@ namespace Lab9_BST
             // TODO: Implement this method
             // Hint: Keep going left until you can't go anymore
             
-            throw new NotImplementedException("FindMinimum method needs implementation");
+            // throw new NotImplementedException("FindMinimum method needs implementation");
+
+            if (root == null)
+            {
+                return null;
+            } 
+
+            TreeNode current = root;
+            
+            while (current.Left != null)
+            {
+                current = current.Left;
+            }
+
+            return current.Employee;
         }
         
         /// <summary>
@@ -280,10 +290,15 @@ namespace Lab9_BST
         
         private void InOrderRecursive(TreeNode? node)
         {
-            // TODO: Implement recursive in-order traversal
-            // Base case: if node is null, return
-            // Recursive case: Left -> Process -> Right
-            throw new NotImplementedException("InOrderRecursive helper method needs implementation");
+            if (node == null)
+            {
+                return;
+            }
+
+            InOrderRecursive(node.Left); // left subtree
+            Console.WriteLine(node.Employee); // current node
+            InOrderRecursive(node.Right); // right subtree
+
         }
         
         private int CountRecursive(TreeNode? node)
