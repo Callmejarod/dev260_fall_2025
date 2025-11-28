@@ -62,7 +62,23 @@ namespace FileSystemNavigator
             // 3. Handle duplicate file names (return false if exists)
             // 4. Extension will be automatically extracted in FileNode constructor
             
-            throw new NotImplementedException("CreateFile method needs implementation");
+            // throw new NotImplementedException("CreateFile method needs implementation");
+
+
+            // check if file already exist
+            var existing = SearchNode(root, fileName);
+            if (existing != null)
+            {
+                return false; // duplicate
+            }
+
+            FileNode newFile = new FileNode(fileName, FileType.File, size);
+
+            root = InsertNode(root, newFile);
+
+            return true;
+
+
         }
 
         /// <summary>
@@ -270,7 +286,26 @@ namespace FileSystemNavigator
             // Base case: if node is null, create new TreeNode
             // Recursive case: compare names and go left or right
             // Use CompareFileNodes for proper ordering
-            throw new NotImplementedException("InsertNode helper method needs implementation");
+            // throw new NotImplementedException("InsertNode helper method needs implementation");
+
+            if (node == null)
+            {
+                return new TreeNode(fileData);
+            }
+
+            int cmp = CompareFileNodes(fileData, node.FileData);
+
+            if (cmp < 0)
+            {
+                node.Left = InsertNode(node.Left, fileData); // Go left
+            }
+            else
+            {
+                node.Right = InsertNode(node.Right, fileData); // Go right
+            }
+
+            return node;
+
         }
 
         /// <summary>
@@ -279,11 +314,27 @@ namespace FileSystemNavigator
         /// </summary>
         private FileNode? SearchNode(TreeNode? node, string fileName)
         {
-            // TODO: Implement recursive BST search
-            // Base case: if node is null, return null
-            // Base case: if names match, return node.FileData
-            // Recursive case: compare names and go left or right
-            throw new NotImplementedException("SearchNode helper method needs implementation");
+          
+            if (node == null)
+                return null;
+
+            // Create temporary FileNode for comparison
+            FileNode searchFile = new FileNode(fileName, FileType.File);
+
+            int cmp = CompareFileNodes(searchFile, node.FileData);
+
+            if (cmp == 0)
+            {
+                return node.FileData;
+            }
+            else if (cmp < 0)
+            {
+                return SearchNode(node.Left, fileName);
+            }
+            else
+            {
+                return SearchNode(node.Right, fileName);
+            }
         }
 
         /// <summary>
