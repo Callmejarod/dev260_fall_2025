@@ -139,16 +139,23 @@ namespace FileSystemNavigator
         /// <param name="extension">File extension to search for (.txt, .cs, etc.)</param>
         /// <returns>List of files with matching extension</returns>
         public List<FileNode> FindFilesByExtension(string extension)
-        {
+        {            
             operationCount++;
-            
-            // TODO: Implement extension-based file search
-            // Hints:
-            // 1. Use TraverseAndCollect helper method
-            // 2. Filter by FileType.File AND matching extension
-            // 3. Handle extension format (with or without leading dot)
-            
-            throw new NotImplementedException("FindFilesByExtension method needs implementation");
+
+            // Normalize extension to always start with a dot
+            if (!extension.StartsWith("."))
+                extension = "." + extension;
+
+            List<FileNode> result = new List<FileNode>();
+
+            // Filter: must be a file AND have matching extension (case-insensitive)
+            Func<FileNode, bool> filter = file =>
+                string.Equals(file.Extension, extension, StringComparison.OrdinalIgnoreCase);
+
+            // Traverse the BST and collect matching nodes
+            TraverseAndCollect(root, result, filter);
+
+            return result;
         }
 
         /// <summary>
@@ -169,14 +176,21 @@ namespace FileSystemNavigator
         public List<FileNode> FindFilesBySize(long minSize, long maxSize)
         {
             operationCount++;
-            
-            // TODO: Implement size-based file search
-            // Hints:
-            // 1. Validate input parameters (minSize <= maxSize)
-            // 2. Use TraverseAndCollect with size range filter
-            // 3. Only include FileType.File items
-            
-            throw new NotImplementedException("FindFilesBySize method needs implementation");
+
+
+            if (minSize >= maxSize)
+            {
+                return new List<FileNode>();
+            }
+
+            List<FileNode> result = new List<FileNode>();
+
+            Func<FileNode, bool> filter = file =>
+                file.Size >= minSize && file.Size <= maxSize;
+
+            TraverseAndCollect(root, result, filter);
+
+            return result;
         }
 
         /// <summary>
@@ -196,15 +210,25 @@ namespace FileSystemNavigator
         public List<FileNode> FindLargestFiles(int count)
         {
             operationCount++;
-            
-            // TODO: Implement largest files search
-            // Hints:
-            // 1. Collect all files using traversal
-            // 2. Sort by Size property (descending)
-            // 3. Take top 'count' items
-            // 4. Handle edge case where count <= 0
-            
-            throw new NotImplementedException("FindLargestFiles method needs implementation");
+
+            if (count <= 0)
+            {
+                return new List<FileNode>();
+            }
+
+            List<FileNode> results = new List<FileNode>();
+
+            Func<FileNode, bool> filter = file =>
+                file.Type == FileType.File;
+
+            TraverseAndCollect(root, results, filter);
+
+            results.Sort((a, b) => b.Size.CompareTo(a.Size));
+
+            List<FileNode> topResults = results.Take(count).ToList();
+
+            return topResults;
+
         }
 
         /// <summary>
@@ -230,7 +254,22 @@ namespace FileSystemNavigator
             // 2. Sum the Size property of all nodes
             // 3. Handle empty tree case (return 0)
             
-            throw new NotImplementedException("CalculateTotalSize method needs implementation");
+            // throw new NotImplementedException("CalculateTotalSize method needs implementation");
+
+            if (root == null)
+            {
+                return 0;
+            }
+
+            List<FileNode> results = new List<FileNode>();
+
+            Func<FileNode, bool> filter = file => file.Type == FileType.File;
+
+            TraverseAndCollect(root, results, filter);
+
+            long totalSize = results.Sum(file => file.Size);
+
+            return totalSize;
         }
 
         /// <summary>
@@ -336,7 +375,24 @@ namespace FileSystemNavigator
             // Base case: if node is null, return
             // Recursive case: traverse left, process current, traverse right
             // Add to collection only if filter returns true
-            throw new NotImplementedException("TraverseAndCollect helper method needs implementation");
+            
+            if (node == null)
+            {
+                return;
+            }
+
+            // transverse left subtree
+            TraverseAndCollect(node.Left, collection, filter);
+
+            // process current node
+            if (filter(node.FileData))
+            {
+                collection.Add(node.FileData);
+            }
+
+            // transverse right subtree
+            TraverseAndCollect(node.Right, collection, filter);
+
         }
 
         /// <summary>
