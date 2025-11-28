@@ -121,14 +121,7 @@ namespace FileSystemNavigator
         public FileNode? FindFile(string fileName)
         {
             operationCount++;
-            
-            // TODO: Implement file search logic
-            // Hints:
-            // 1. Use SearchNode helper method with recursive approach
-            // 2. Compare file names case-insensitively
-            // 3. Return the FileNode.FileData if found
-            
-            throw new NotImplementedException("FindFile method needs implementation");
+            return SearchNode(root, fileName);
         }
 
         /// <summary>
