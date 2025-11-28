@@ -55,16 +55,6 @@ namespace FileSystemNavigator
         {
             operationCount++;
             
-            // TODO: Implement file creation logic
-            // Hints:
-            // 1. Create FileNode with FileType.File and provided size
-            // 2. Insert into BST using InsertNode helper method
-            // 3. Handle duplicate file names (return false if exists)
-            // 4. Extension will be automatically extracted in FileNode constructor
-            
-            // throw new NotImplementedException("CreateFile method needs implementation");
-
-
             // check if file already exist
             var existing = SearchNode(root, fileName);
             if (existing != null)
@@ -98,14 +88,20 @@ namespace FileSystemNavigator
         public bool CreateDirectory(string directoryName)
         {
             operationCount++;
+
+            // check if directory already exist
+            var existing = SearchNode(root, directoryName);
+            if (existing != null)
+            {
+                return false; // duplicate
+            }
             
-            // TODO: Implement directory creation logic
-            // Hints:
-            // 1. Create FileNode with FileType.Directory
-            // 2. Use same insertion logic as CreateFile but with different type
-            // 3. Directories automatically have size = 0 and no extension
+            FileNode newDirectory = new FileNode(directoryName, FileType.Directory);
+
+            root = InsertNode(root, newDirectory);
+
+            return true;
             
-            throw new NotImplementedException("CreateDirectory method needs implementation");
         }
 
         /// <summary>
