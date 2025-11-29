@@ -290,20 +290,86 @@ namespace FileSystemNavigator
         {
             operationCount++;
             
-            // TODO: Implement file/directory deletion
-            // Hints:
-            // 1. Find the node to delete first
-            // 2. Handle three cases: no children, one child, two children
-            // 3. For two children case, find inorder successor
-            // 4. Update tree structure properly
-            
-            throw new NotImplementedException("DeleteItem method needs implementation");
+            FileNode fakeFile = new FileNode(fileName, FileType.File);
+            FileNode fakeDir  = new FileNode(fileName, FileType.Directory);
+
+            bool deleted;
+
+            // First try as a directory
+            root = DeleteNode(root, fakeDir, out deleted);
+
+            if (deleted)
+                return true;
+
+            // Then try as a file
+            root = DeleteNode(root, fakeFile, out deleted);
+
+            return deleted;    
         }
 
         // ============================================
         // 🔧 HELPER METHODS FOR TODO IMPLEMENTATION
         // ============================================
         
+        /// <summary>
+        /// Helper method for BST deletion
+        /// Use this for DeleteItem
+        /// </summary>        
+        private TreeNode? DeleteNode(TreeNode? node, FileNode target, out bool deleted)
+        {
+            if (node == null)
+            {
+                deleted = false;
+                return null;
+            }
+
+            int cmp = CompareFileNodes(target, node.FileData);
+
+            if (cmp < 0)
+            {
+                node.Left = DeleteNode(node.Left, target, out deleted);
+                return node;
+            }
+            else if (cmp > 0)
+            {
+                node.Right = DeleteNode(node.Right, target, out deleted);
+                return node;
+            }
+            else
+            {
+                // MATCH FOUND
+                deleted = true;
+
+                // Case 1: no children
+                if (node.Left == null && node.Right == null)
+                    return null;
+
+                // Case 2: one child
+                if (node.Left == null)
+                    return node.Right;
+
+                if (node.Right == null)
+                    return node.Left;
+
+                // Case 3: two children → replace with inorder successor
+                TreeNode successor = FindMin(node.Right);
+                node.FileData = successor.FileData;
+
+                // Delete the successor node
+                node.Right = DeleteNode(node.Right, successor.FileData, out _);
+
+                return node;
+            }
+        }
+
+
+        private TreeNode FindMin(TreeNode node)
+        {
+            while (node.Left != null)
+                node = node.Left;
+            return node;
+        }
+
         /// <summary>
         /// Helper method for BST insertion
         /// Students should use this in CreateFile and CreateDirectory
