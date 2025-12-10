@@ -8,26 +8,28 @@ namespace TeamManagerApp.Services
 {
     public class ManagerService
     {
-        private Dictionary<string, Manager> ManagerDict;
+        private Dictionary<int, Manager> ManagerDict;
         private List<Manager> ManagerList;
 
         public ManagerService()
         {
-            ManagerDict = new Dictionary<string, Manager>();
+            ManagerDict = new Dictionary<int, Manager>();
             ManagerList = new List<Manager>();
         }
 
         // Adds a manager to the dictionary
         public bool AddManager(string managerName, string managerTeamName)
         {
-            // no duplicate manager names
-            if (ManagerDict.ContainsKey(managerName))
+            // Find out if the managers name is already taken
+            if(FindManager(managerName) != null)
             {
                 return false;
             }
-
+    
             Manager managerToAdd = new Manager(managerName, managerTeamName);
-            ManagerDict.Add(managerName, managerToAdd);
+            
+            // Add using ID as key
+            ManagerDict.Add(managerToAdd.Id, managerToAdd);
             ManagerList.Add(managerToAdd);
 
             return true;
@@ -35,17 +37,18 @@ namespace TeamManagerApp.Services
 
         // Removes a manager from the dictionary
         public bool RemoveManager(string managerName)
-        {
-            if (!ManagerDict.ContainsKey(managerName))
+        {            
+            // Find the manager object
+            Manager managerToRemove = FindManager(managerName);
+
+            // Guard Clause
+            if (managerToRemove == null)
             {
                 return false;
             }
 
-            // Get Manager Object
-            Manager managerToRemove = ManagerDict[managerName];
-
             // Remove from dictionary
-            ManagerDict.Remove(managerName);
+            ManagerDict.Remove(managerToRemove.Id);
 
             // Remove from list
             ManagerList.Remove(managerToRemove);
@@ -56,19 +59,33 @@ namespace TeamManagerApp.Services
         //updates team name
         public bool UpdateTeamName(string managerName, string newTeamName)
         {
-            if (!ManagerDict.ContainsKey(managerName))
+            // Find the manager object
+            Manager managerToUpdate = FindManager(managerName);
+
+            if (managerToUpdate == null)
             {
                 return false;
             }
 
-            // Get Manager Object
-            Manager managerToChange = ManagerDict[managerName];
-
-            // Change team name
-            ManagerDict[managerName].TeamName = newTeamName;
+            // Update team name
+            managerToUpdate.TeamName = newTeamName;
 
             return true;
 
+        }
+
+        // Finds if a manager exists
+        public Manager FindManager(string managerName)
+        {
+            for (int i = 0; i < ManagerList.Count; i++)
+            {
+                if (ManagerList[i].ManagerName.Equals(managerName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return ManagerList[i];
+                }
+            }
+
+            return null;
         }
 
         // Show all managers

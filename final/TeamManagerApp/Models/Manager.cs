@@ -8,6 +8,8 @@ namespace TeamManagerApp.Models
     public class Manager
     {
 
+        private static int _nextId = 1;
+        public int Id {get; }
         public string ManagerName {get; set;}
         public string TeamName {get; set;}
         public HashSet<BasketballPlayer> PlayersList;
@@ -16,6 +18,7 @@ namespace TeamManagerApp.Models
 
         public Manager(string managerName, string teamName)
         {
+            Id = _nextId++;
             ManagerName = managerName;
             TeamName = teamName;
             PlayersList =  new HashSet<BasketballPlayer>();
