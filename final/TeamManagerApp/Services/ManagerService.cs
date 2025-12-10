@@ -56,9 +56,9 @@ namespace TeamManagerApp.Services
         // Show all managers
         public void ListAllManagers()
         {
-            foreach(Manager manger in ManagerList)
+            foreach(Manager manager in ManagerList)
             {
-                Console.WriteLine($"- {manger.ManagerName}: {manager.TeamName}");
+                Console.WriteLine($"- {manager.ManagerName}: {manager.TeamName}");
             }
         }
     }
