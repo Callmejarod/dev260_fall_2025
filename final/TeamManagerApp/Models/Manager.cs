@@ -10,16 +10,14 @@ namespace TeamManagerApp.Models
 
         public string ManagerName {get; private set;}
         public string TeamName {get; private set;}
-        public int WaiverPosition {get; set;}
         public HashSet<BasketballPlayer> PlayersList;
 
 
 
-        public Manager(string managerName, string teamName, int waiverPosition)
+        public Manager(string managerName, string teamName)
         {
             ManagerName = managerName;
             TeamName = teamName;
-            WaiverPosition = waiverPosition;
             PlayersList =  new HashSet<BasketballPlayer>();
         }
 
