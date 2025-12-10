@@ -8,8 +8,8 @@ namespace TeamManagerApp.Models
     public class Manager
     {
 
-        public string ManagerName {get; private set;}
-        public string TeamName {get; private set;}
+        public string ManagerName {get; set;}
+        public string TeamName {get; set;}
         public HashSet<BasketballPlayer> PlayersList;
 
 

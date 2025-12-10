@@ -53,6 +53,24 @@ namespace TeamManagerApp.Services
             return true;
         }
 
+        //updates team name
+        public bool UpdateTeamName(string managerName, string newTeamName)
+        {
+            if (!ManagerDict.ContainsKey(managerName))
+            {
+                return false;
+            }
+
+            // Get Manager Object
+            Manager managerToChange = ManagerDict[managerName];
+
+            // Change team name
+            ManagerDict[managerName].TeamName = newTeamName;
+
+            return true;
+
+        }
+
         // Show all managers
         public void ListAllManagers()
         {
