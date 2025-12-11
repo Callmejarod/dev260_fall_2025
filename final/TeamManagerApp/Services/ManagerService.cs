@@ -96,5 +96,31 @@ namespace TeamManagerApp.Services
                 Console.WriteLine($"- {manager.ManagerName}: {manager.TeamName}");
             }
         }
+
+        // List the players of a given managers team
+        public void ListPlayersByManager(string managerName)
+        {
+            Manager managerToList = FindManager(managerName);
+
+            // Guard against manager not found
+            if (managerToList == null)
+            {
+                Console.WriteLine("Manager not found.");
+                return;
+            }
+
+            // Guard against a team with no players
+            if(managerToList.PlayersList.Count == 0)
+            {
+                Console.WriteLine($"{managerToList.ManagerName} has no players on their team.");
+                return;
+            }
+
+            Console.WriteLine($"Players for {managerToList.ManagerName}'s team:");
+            foreach (BasketballPlayer player in managerToList.PlayersList)
+            {
+                Console.WriteLine($"- {player.FirstName} {player.LastName}");
+            }
+        }
     }
 }
