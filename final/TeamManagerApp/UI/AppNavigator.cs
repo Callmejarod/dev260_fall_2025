@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TeamManagerApp.Services;
+using TeamManagerApp.Models;
 
 namespace TeamManagerApp.UI
 {
@@ -38,7 +39,7 @@ namespace TeamManagerApp.UI
                 DisplayMainMenu();
                 string choice = Console.ReadLine()?.ToLower() ?? "";
 
-                Console.WriteLine($"You selected: {choice}");
+                Console.WriteLine($"You selected: {choice}\n");
                 
                 // NOTE: Wrap all user operations in try-catch to prevent crashes
                 // from invalid input or business logic errors
@@ -92,10 +93,9 @@ namespace TeamManagerApp.UI
                     HandleCreateManager();
                     break;
                     
-                // case "4":
-                // case "check":
-                //     HandleCheckCommand(args);
-                //     break;
+                case "4":
+                    HandleDisplayWaiverList();
+                    break;
                     
                 // case "5":
                 // case "misspelled":
@@ -230,6 +230,33 @@ namespace TeamManagerApp.UI
             }
 
             Console.WriteLine(); 
+        }
+
+        private void HandleDisplayWaiverList()
+        {
+            Console.WriteLine("=== Waiver Wire ===");
+
+            try
+            {
+                var players = waiverWire.GetAvailablePlayers();
+
+                if (!players.Any())
+                {
+                    Console.WriteLine("No players available on the waiver wire.");
+                    return;
+                }
+
+                foreach (var player in players)
+                {
+                    Console.WriteLine(player.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"✗ ERROR: {ex.Message}");
+            }
+
+            Console.WriteLine();
         }
 
 
