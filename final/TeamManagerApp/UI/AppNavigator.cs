@@ -97,10 +97,9 @@ namespace TeamManagerApp.UI
                     HandleDisplayWaiverList();
                     break;
                     
-                // case "5":
-                // case "misspelled":
-                //     HandleListMisspelledCommand();
-                //     break;
+                case "5":
+                    HandleAddPlayer();
+                    break;
                     
                 // case "6":
                 // case "unique":
@@ -259,6 +258,55 @@ namespace TeamManagerApp.UI
             Console.WriteLine();
         }
 
+        private void HandleAddPlayer()
+        {
+            Console.WriteLine("=== Player Add ===");
+
+            try
+            {
+                int playerId;
+                BasketballPlayer playerToAdd;
+
+                Console.WriteLine("Enter the Player ID:  ");
+                string userInput = Console.ReadLine();
+                
+                // Check if the user entered a number
+                if (int.TryParse(userInput, out playerId))
+                {
+                    // Check if the player is in the Dictionary
+                    if (waiverWire.FindPlayer(playerId) != null)
+                    {
+                        // Add the player to the users team
+                        playerToAdd = waiverWire.FindPlayer(playerId);
+                        userManager.AddPlayer(playerToAdd);
+
+                        // Remove him from waivers
+                        waiverWire.RemovefromWaivers(playerId);
+
+                        Console.WriteLine($"\n✓ SUCCESS: Player claimed off waivers!\n");
+                        managerService.ListPlayersByManager(userManager.ManagerName);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"✗ ERROR: '{playerId}' is not available to claim in waivers.");
+                        return;
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine($"✗ ERROR: '{userInput}' is not a valid Id number.");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"✗ ERROR: {ex.Message}");
+            }
+
+            Console.WriteLine();
+        }
 
 
 
