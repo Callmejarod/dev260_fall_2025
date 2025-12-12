@@ -10,12 +10,10 @@ namespace TeamManagerApp.UI
     {
         // private readonly PlayerService playerService;
         private readonly ManagerService managerService;
-        private readonly WaiverWire waiverwire;
-
-        private bool isRunning;
-
         private readonly WaiverWire waiverWire;
 
+        private bool isRunning;
+        
         public AppNavigator(ManagerService managerService, WaiverWire waiverWire)
         {
             this.managerService = managerService ?? throw new ArgumentNullException(nameof(managerService));
