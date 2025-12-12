@@ -122,5 +122,46 @@ namespace TeamManagerApp.Services
                 Console.WriteLine($"- {player.FirstName} {player.LastName}");
             }
         }
+
+        // Populates the app with other managers and players on their team
+        public void PopulateManagers()
+        {
+            // Random Managers chosen
+            AddManager("Priscila", "Nikola 🥤");
+            AddManager("Jarod", "Nonchalant Generator");
+            AddManager("Justin", "Team youngins");
+
+            // Get manager references
+            Manager priscila = FindManager("Priscila");
+            Manager jarod = FindManager("Jarod");
+            Manager justin = FindManager("Justin");
+
+            // Guard Clause
+            if (priscila == null || jarod == null || justin == null)
+            return;
+
+            // --- Players for Priscila ---
+            priscila.AddPlayer(new BasketballPlayer("Nikola", "Jokic", "Nuggets", "Center"));
+            priscila.AddPlayer(new BasketballPlayer("Mikal", "Bridges", "Knicks", "Shooting Guard"));
+            priscila.AddPlayer(new BasketballPlayer("Evan", "Mobly", "Cavaliers", "Center"));
+            priscila.AddPlayer(new BasketballPlayer("Jamal", "Murray", "Nuggets", "Point Guard"));
+            priscila.AddPlayer(new BasketballPlayer("Donavan", "Mitchel", "Cavaliers", "Point Guard"));
+
+            // --- Players for Jarod ---
+            jarod.AddPlayer(new BasketballPlayer("Shai", "Gilgeous-Alexander", "Thunder", "Point Guard"));
+            jarod.AddPlayer(new BasketballPlayer("Devin", "Booker", "Suns", "Shooting Guard"));
+            jarod.AddPlayer(new BasketballPlayer("Jalen", "Johnson", "Hawks", "Power Forward"));
+            jarod.AddPlayer(new BasketballPlayer("Vj", "Edgecombe", "76ers", "Point Guard"));
+            jarod.AddPlayer(new BasketballPlayer("Alperen", "Sengun", "Rockets", "Center"));
+
+            // --- Players for Justin ---
+            justin.AddPlayer(new BasketballPlayer("Cooper", "Flag", "Mavericks", "Point Guard"));
+            justin.AddPlayer(new BasketballPlayer("Derrick", "White", "Celtics", "Shooting Guard"));
+            justin.AddPlayer(new BasketballPlayer("Lebron", "James", "Lakers", "Small Forward"));
+            justin.AddPlayer(new BasketballPlayer("Derik", "Queen", "Pelicans", "Power Forward"));
+            justin.AddPlayer(new BasketballPlayer("Joel", "Embid", "76ers", "Center"));
+
+        }
+
     }
 }
