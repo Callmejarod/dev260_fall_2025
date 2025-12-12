@@ -72,6 +72,12 @@ namespace TeamManagerApp.Services
             AddToWaivers(new BasketballPlayer("Klay", "Thompson", "Mavericks", "Shooting Guard"));
         }
 
+        public IEnumerable<BasketballPlayer> GetAvailablePlayers()
+        {
+            return AvailablePlayers.Values;
+        }
+
+
     }
 
 
