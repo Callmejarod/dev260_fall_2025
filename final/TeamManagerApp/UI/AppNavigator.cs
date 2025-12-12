@@ -10,13 +10,16 @@ namespace TeamManagerApp.UI
     {
         // private readonly PlayerService playerService;
         private readonly ManagerService managerService;
+        private readonly WaiverWire waiverwire;
 
         private bool isRunning;
 
-        public AppNavigator(ManagerService managerService)
+        private readonly WaiverWire waiverWire;
+
+        public AppNavigator(ManagerService managerService, WaiverWire waiverWire)
         {
-            // this.playerService = playerService ?? throw new ArgumentNullException(nameof(playerService));
             this.managerService = managerService ?? throw new ArgumentNullException(nameof(managerService));
+            this.waiverWire = waiverWire ?? throw new ArgumentNullException(nameof(waiverWire));
             this.isRunning = true;
         }
 
@@ -77,8 +80,6 @@ namespace TeamManagerApp.UI
             switch (command)
             {
                 case "1":
-                case "load":
-                case "dictionary":
                     HandlePopulateManagers();
                     break;
 
@@ -91,10 +92,9 @@ namespace TeamManagerApp.UI
 
 
                     
-                // case "2":
-                // case "analyze":
-                //     HandleAnalyzeCommand(args);
-                //     break;
+                case "2":
+                    HandlePopulateWaivers();
+                    break;
                     
                 // case "3":
                 // case "categorize":
@@ -173,6 +173,24 @@ namespace TeamManagerApp.UI
             Console.WriteLine();
         }
 
+        // Handle Populate Waivers
+        private void HandlePopulateWaivers()
+        {
+            Console.WriteLine("Attempting to populate waiver wire...");
+
+            // Error handling
+            try
+            {
+                waiverWire.PopulateWaiverWire();
+                Console.WriteLine($"✓ SUCCESS: Players are now available to pick up in the waiver wires!");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"✗ ERROR: {ex.Message}");
+            }
+
+            Console.WriteLine();            
+        }
 
 
 
