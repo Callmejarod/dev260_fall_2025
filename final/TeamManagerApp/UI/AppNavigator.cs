@@ -11,6 +11,7 @@ namespace TeamManagerApp.UI
         // private readonly PlayerService playerService;
         private readonly ManagerService managerService;
         private readonly WaiverWire waiverWire;
+        private Manager userManager;
 
         private bool isRunning;
 
@@ -18,6 +19,8 @@ namespace TeamManagerApp.UI
         {
             this.managerService = managerService ?? throw new ArgumentNullException(nameof(managerService));
             this.waiverWire = waiverWire ?? throw new ArgumentNullException(nameof(waiverWire));
+
+            userManager = null;
             this.isRunning = true;
         }
 
@@ -211,6 +214,7 @@ namespace TeamManagerApp.UI
                     if (managerService.AddManager(managerName, teamName))
                     {
                         success = true;
+                        userManager = managerService.FindManager(managerName); // Assign the users team
                     }
                     else
                     {
