@@ -35,6 +35,18 @@ namespace TeamManagerApp.Services
             return AvailablePlayers.Remove(playerId);
         }
 
+        public BasketballPlayer FindPlayer(int playerId)
+        {
+            if (AvailablePlayers.ContainsKey(playerId))
+            {
+                return AvailablePlayers[playerId];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void PopulateWaiverWire()
         {
             AddToWaivers(new BasketballPlayer("Stephen", "Curry", "Warriors", "Point Guard"));
