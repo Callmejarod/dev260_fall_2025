@@ -13,7 +13,7 @@ namespace TeamManagerApp.UI
         private readonly WaiverWire waiverWire;
 
         private bool isRunning;
-        
+
         public AppNavigator(ManagerService managerService, WaiverWire waiverWire)
         {
             this.managerService = managerService ?? throw new ArgumentNullException(nameof(managerService));
@@ -81,23 +81,13 @@ namespace TeamManagerApp.UI
                     HandlePopulateManagers();
                     break;
 
-
-
-
-
-
-
-
-
-                    
                 case "2":
                     HandlePopulateWaivers();
                     break;
-                    
-                // case "3":
-                // case "categorize":
-                //     HandleCategorizeCommand();
-                //     break;
+
+                case "3":
+                    HandleCreateManager();
+                    break;
                     
                 // case "4":
                 // case "check":
@@ -190,6 +180,53 @@ namespace TeamManagerApp.UI
             Console.WriteLine();            
         }
 
+        private void HandleCreateManager()
+        {
+            Console.WriteLine("=== Manager Creation ===");
+
+            // Error handling
+            try
+            {
+                bool success = false;
+                string managerName = "";
+                string teamName = "";
+
+                while (!success)
+                {
+                    // Collect names
+                    Console.WriteLine("\nEnter your name: ");
+                    managerName = Console.ReadLine();
+
+                    Console.WriteLine("\nEnter your team name: ");
+                    teamName = Console.ReadLine();
+
+                    // Validate empty inputs
+                    if (string.IsNullOrEmpty(managerName) || string.IsNullOrEmpty(teamName))
+                    {
+                        Console.WriteLine("\n✗ ERROR: Manager name and team name cannot be empty.");
+                        continue;
+                    }
+
+                    // Attempt to add manager
+                    if (managerService.AddManager(managerName, teamName))
+                    {
+                        success = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n✗ ERROR: That manager name already exists. Please try a different name.");
+                    }
+                }
+
+                Console.WriteLine($"\n✓ SUCCESS: Manager '{managerName}' created! You're ready to add players.");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"✗ ERROR: {ex.Message}");
+            }
+
+            Console.WriteLine(); 
+        }
 
 
 
