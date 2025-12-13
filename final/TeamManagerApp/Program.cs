@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TeamManagerApp.UI;
 using TeamManagerApp.Services;
+using TeamManagerApp.Models;
 
 namespace TeamManagerApp
 {
@@ -20,11 +21,11 @@ namespace TeamManagerApp
             try
             {
                 // Initialize the system
-                var playerService = new PlayerService();
                 var managerService = new ManagerService();
+                var waiverWire = new WaiverWire();
                 
                 // Start the interactive navigator immediately
-                var navigator = new AppNavigator(playerService, managerService);
+                var navigator = new AppNavigator(managerService, waiverWire);
                 navigator.Run();
             }
             catch (Exception ex)
