@@ -105,10 +105,9 @@ namespace TeamManagerApp.UI
                     HandleRemovePlayer();
                     break;
                     
-                // case "7":
-                // case "stats":
-                //     HandleStatsCommand();
-                //     break;
+                case "7":
+                    HandleChangeTeamName();
+                    break;
                     
                 case "8":
                 case "exit":
@@ -354,6 +353,51 @@ namespace TeamManagerApp.UI
             Console.WriteLine();
         }
 
+        private void HandleChangeTeamName()
+        {
+            Console.WriteLine("=== Update Team Name ===");
+
+            // Check if the user has created a manager yet
+            if (userManager == null)
+            {
+                Console.WriteLine("✗ ERROR: You have not created a manager.");
+                Console.WriteLine();
+                return;
+            }
+
+            string currentName = userManager.TeamName;
+            string newName;
+            bool success;
+
+            Console.WriteLine($"Current Team Name: {currentName}");
+            Console.Write("New Team Name: ");
+            newName = Console.ReadLine();
+
+            // Check if user entered empty string
+            if (string.IsNullOrWhiteSpace(newName))
+            {
+                Console.WriteLine("\n✗ ERROR: Team name cannot be empty.");
+                Console.WriteLine();
+                return;
+            }
+
+            // Call update name function
+            success = managerService.UpdateTeamName(userManager.ManagerName, newName);
+
+            if (success)
+            {
+                Console.WriteLine("\n✓ SUCCESS:");
+                Console.WriteLine($"Previous Team Name: {currentName}");
+                Console.WriteLine($"New Team Name: {newName}");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("✗ ERROR: Failed to update team name.");
+            }
+
+
+        }
 
 
 
