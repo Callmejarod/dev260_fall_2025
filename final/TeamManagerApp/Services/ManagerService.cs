@@ -119,7 +119,7 @@ namespace TeamManagerApp.Services
             Console.WriteLine($"Players for {managerToList.ManagerName}'s team:");
             foreach (BasketballPlayer player in managerToList.PlayersList)
             {
-                Console.WriteLine($"- {player.FirstName} {player.LastName}");
+                Console.WriteLine($"- [{player.Id}] {player.FirstName} {player.LastName} {player.Position} - {player.Team}");
             }
         }
 
