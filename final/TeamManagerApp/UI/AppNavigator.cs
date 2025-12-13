@@ -138,7 +138,7 @@ namespace TeamManagerApp.UI
             Console.WriteLine("┌────────────────────────────   Team Manager & Player Explorer   ─────────────────────────────┐");
             Console.WriteLine("│ 1. Populate Managers       │ 2. Populate Waivers   │ 3. Create Your Manager                 │");
             Console.WriteLine("│ 4. Waiver Wire List        │ 5. Add Players        │ 6. Remove Players                      │");
-            Console.WriteLine("│ 7. Change Team Name        │ 8. League Managers      │ 9. List Players On Each Team         │");
+            Console.WriteLine("│ 7. Change Team Name        │ 8. League Managers    │ 9. List Players On Each Team           │");
             Console.WriteLine("│ 10. Exit                                                                                    │");
             Console.WriteLine("└─────────────────────────────────────────────────────────────────────────────────────────────┘");
             Console.Write("\nChoose an option by number: ");
