@@ -116,7 +116,7 @@ namespace TeamManagerApp.Services
                 return;
             }
 
-            Console.WriteLine($"Players for {managerToList.ManagerName}'s team:");
+            Console.WriteLine($"Players on {managerToList.TeamName}:");
             foreach (BasketballPlayer player in managerToList.PlayersList)
             {
                 Console.WriteLine($"- [{player.Id}] {player.FirstName} {player.LastName} {player.Position} - {player.Team}");
