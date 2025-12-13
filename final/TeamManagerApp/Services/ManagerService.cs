@@ -91,6 +91,14 @@ namespace TeamManagerApp.Services
         // Show all managers
         public void ListAllManagers()
         {
+            // Guard against no managers in the list
+            if (ManagerList.Count == 0)
+            {
+                Console.WriteLine("No managers found in the league.");
+                Console.WriteLine("Use Populate Managers or Create Your Manager.");
+                return;
+            }
+
             foreach(Manager manager in ManagerList)
             {
                 Console.WriteLine($"- {manager.ManagerName}: {manager.TeamName}");
