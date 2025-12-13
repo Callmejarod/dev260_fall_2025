@@ -39,7 +39,7 @@ namespace TeamManagerApp.Services
         public bool RemoveManager(string managerName)
         {            
             // Find the manager object
-            Manager managerToRemove = FindManager(managerName);
+            Manager? managerToRemove = FindManager(managerName);
 
             // Guard Clause
             if (managerToRemove == null)
@@ -60,7 +60,7 @@ namespace TeamManagerApp.Services
         public bool UpdateTeamName(string managerName, string newTeamName)
         {
             // Find the manager object
-            Manager managerToUpdate = FindManager(managerName);
+            Manager? managerToUpdate = FindManager(managerName);
 
             if (managerToUpdate == null)
             {
@@ -75,7 +75,7 @@ namespace TeamManagerApp.Services
         }
 
         // Finds if a manager exists
-        public Manager FindManager(string managerName)
+        public Manager? FindManager(string managerName)
         {
             for (int i = 0; i < ManagerList.Count; i++)
             {
@@ -108,7 +108,7 @@ namespace TeamManagerApp.Services
         // List the players of a given managers team
         public void ListPlayersByManager(string managerName)
         {
-            Manager managerToList = FindManager(managerName);
+            Manager? managerToList = FindManager(managerName);
 
             // Guard against manager not found
             if (managerToList == null)
@@ -160,9 +160,9 @@ namespace TeamManagerApp.Services
             AddManager("Justin", "Team youngins");
 
             // Get manager references
-            Manager priscila = FindManager("Priscila");
-            Manager jarod = FindManager("Jarod");
-            Manager justin = FindManager("Justin");
+            Manager? priscila = FindManager("Priscila");
+            Manager? jarod = FindManager("Jarod");
+            Manager? justin = FindManager("Justin");
 
             // Guard Clause
             if (priscila == null || jarod == null || justin == null)

@@ -12,7 +12,7 @@ namespace TeamManagerApp.UI
         // private readonly PlayerService playerService;
         private readonly ManagerService managerService;
         private readonly WaiverWire waiverWire;
-        private Manager userManager;
+        private Manager? userManager;
 
         private bool isRunning;
 
@@ -135,12 +135,12 @@ namespace TeamManagerApp.UI
         // Display menu
         private void DisplayMainMenu()
         {            
-            Console.WriteLine("┌────────────────────────────   Team Manager & Player Explorer   ────────────────────────────┐");
-            Console.WriteLine("│ 1. Populate Managers       │ 2. Populate Waivers   │ 3. Create Your Manager               │");
-            Console.WriteLine("│ 4. Waiver Wire List        │ 5. Add Players        │ 6. Remove Players                    │");
-            Console.WriteLine("│ 7. Change Team Name        │ 8. List Managers      │ 9. List Players On Each Team         │");
-            Console.WriteLine("│ 10. Exit                                                                                  │");
-            Console.WriteLine("└───────────────────────────────────────────────────────────────────────────────────────────┘");
+            Console.WriteLine("┌────────────────────────────   Team Manager & Player Explorer   ─────────────────────────────┐");
+            Console.WriteLine("│ 1. Populate Managers       │ 2. Populate Waivers   │ 3. Create Your Manager                 │");
+            Console.WriteLine("│ 4. Waiver Wire List        │ 5. Add Players        │ 6. Remove Players                      │");
+            Console.WriteLine("│ 7. Change Team Name        │ 8. League Managers      │ 9. List Players On Each Team         │");
+            Console.WriteLine("│ 10. Exit                                                                                    │");
+            Console.WriteLine("└─────────────────────────────────────────────────────────────────────────────────────────────┘");
             Console.Write("\nChoose an option by number: ");
         }
 
@@ -214,10 +214,10 @@ namespace TeamManagerApp.UI
                 {
                     // Collect names
                     Console.WriteLine("\nEnter your name: ");
-                    managerName = Console.ReadLine();
+                    managerName = Console.ReadLine() ?? "";
 
                     Console.WriteLine("\nEnter your team name: ");
-                    teamName = Console.ReadLine();
+                    teamName = Console.ReadLine() ?? "";
 
                     // Validate empty inputs
                     if (string.IsNullOrEmpty(managerName) || string.IsNullOrEmpty(teamName))
@@ -279,49 +279,41 @@ namespace TeamManagerApp.UI
         {
             Console.WriteLine("=== Player Add ===");
 
-            try
+            // Guard: manager must exist
+            if (userManager == null)
             {
-                int playerId;
-                BasketballPlayer playerToAdd;
-
-                Console.WriteLine("Enter the Player ID:  ");
-                string userInput = Console.ReadLine();
-                
-                // Check if the user entered a number
-                if (int.TryParse(userInput, out playerId))
-                {
-                    // Check if the player is in the Dictionary
-                    if (waiverWire.FindPlayer(playerId) != null)
-                    {
-                        // Add the player to the users team
-                        playerToAdd = waiverWire.FindPlayer(playerId);
-                        userManager.AddPlayer(playerToAdd);
-
-                        // Remove him from waivers
-                        waiverWire.RemovefromWaivers(playerId);
-
-                        Console.WriteLine($"\n✓ SUCCESS: Player claimed off waivers!\n");
-                        managerService.ListPlayersByManager(userManager.ManagerName);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"✗ ERROR: '{playerId}' is not available to claim in waivers.");
-                        return;
-                    }
-
-                }
-                else
-                {
-                    Console.WriteLine($"✗ ERROR: '{userInput}' is not a valid Id number.");
-                    return;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"✗ ERROR: {ex.Message}");
+                Console.WriteLine("✗ ERROR: You must create a manager before adding players.");
+                Console.WriteLine();
+                return;
             }
 
+            Console.Write("Enter the Player ID: ");
+            string userInput = Console.ReadLine() ?? "";
+
+            // Validate numeric input
+            if (!int.TryParse(userInput, out int playerId))
+            {
+                Console.WriteLine($"✗ ERROR: '{userInput}' is not a valid ID number.");
+                Console.WriteLine();
+                return;
+            }
+
+            // Fetch player ONCE
+            BasketballPlayer? playerToAdd = waiverWire.FindPlayer(playerId);
+
+            if (playerToAdd == null)
+            {
+                Console.WriteLine($"✗ ERROR: Player ID {playerId} is not available on waivers.");
+                Console.WriteLine();
+                return;
+            }
+
+            // Add + remove
+            userManager.AddPlayer(playerToAdd);
+            waiverWire.RemovefromWaivers(playerId);
+
+            Console.WriteLine("\n✓ SUCCESS: Player claimed off waivers!\n");
+            managerService.ListPlayersByManager(userManager.ManagerName);
             Console.WriteLine();
         }
 
@@ -329,8 +321,16 @@ namespace TeamManagerApp.UI
         {
             Console.WriteLine("=== Player Removal ===");
 
+            // Guard: manager must exist
+            if (userManager == null)
+            {
+                Console.WriteLine("✗ ERROR: You must create a manager before removing players.");
+                Console.WriteLine();
+                return;
+            }
+
             Console.Write("Enter the Player ID: ");
-            string userInput = Console.ReadLine();
+            string userInput = Console.ReadLine() ?? "";
 
             // Validate ID input
             if (!int.TryParse(userInput, out int playerId))
@@ -340,8 +340,8 @@ namespace TeamManagerApp.UI
                 return;
             }
 
-            // Check if the player is actually on the user's team
-            BasketballPlayer playerToRemove = userManager.FindPlayerByID(playerId);
+            // Find player ONCE
+            BasketballPlayer? playerToRemove = userManager.FindPlayerByID(playerId);
 
             if (playerToRemove == null)
             {
@@ -356,7 +356,7 @@ namespace TeamManagerApp.UI
                 "They will be placed on waivers for anyone to claim. (Y/N)"
             );
 
-            string confirmation = Console.ReadLine()?.Trim().ToLower();
+            string confirmation = Console.ReadLine()?.Trim().ToLower() ?? "";
 
             if (confirmation != "y")
             {
@@ -371,6 +371,7 @@ namespace TeamManagerApp.UI
             Console.WriteLine($"\n✓ SUCCESS: {playerToRemove.FullName} is now on waivers!");
             Console.WriteLine();
         }
+
 
         private void HandleChangeTeamName()
         {
@@ -390,7 +391,7 @@ namespace TeamManagerApp.UI
 
             Console.WriteLine($"Current Team Name: {currentName}");
             Console.Write("New Team Name: ");
-            newName = Console.ReadLine();
+            newName = Console.ReadLine() ?? "";
 
             // Check if user entered empty string
             if (string.IsNullOrWhiteSpace(newName))

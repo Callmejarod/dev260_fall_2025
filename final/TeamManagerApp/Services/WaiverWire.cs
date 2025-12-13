@@ -35,7 +35,7 @@ namespace TeamManagerApp.Services
             return AvailablePlayers.Remove(playerId);
         }
 
-        public BasketballPlayer FindPlayer(int playerId)
+        public BasketballPlayer? FindPlayer(int playerId)
         {
             if (AvailablePlayers.ContainsKey(playerId))
             {

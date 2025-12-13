@@ -31,7 +31,7 @@ namespace TeamManagerApp.Models
 
         public bool RemovePlayer(int playerId)
         {
-            BasketballPlayer playerToRemove = FindPlayerByID(playerId);
+            BasketballPlayer? playerToRemove = FindPlayerByID(playerId);
             
             if(playerToRemove == null)
             {
@@ -43,7 +43,7 @@ namespace TeamManagerApp.Models
         }
 
         // Helper Methods
-        public BasketballPlayer FindPlayerByID(int playerId)
+        public BasketballPlayer? FindPlayerByID(int playerId)
         {
             foreach (BasketballPlayer player in PlayersList)
             {
