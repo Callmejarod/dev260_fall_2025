@@ -9,26 +9,34 @@
 **Core entities:**  
 _List your main entities with key fields, identifiers, and relationships (1–2 lines each)._
 
-**Your Answer:**
+
 
 **Entity A:**
 
-- Name:
-- Key fields:
-- Identifiers:
-- Relationships:
+- Name: `Manager`
+- Key fields: ManagerName, TeamName, PlayerList
+- Identifiers: ManagerName
+- Relationships: One Manager owns many `BasketballPlayer` Objects
 
-**Entity B (if applicable):**
+**Entity B:**
 
-- Name:
-- Key fields:
-- Identifiers:
-- Relationships:
+- Name: `BasketballPlayer`
+- Key fields:Id, FirstName, LastName, Team, Position
+- Identifiers: Id (auto-incremented)
+- Relationships: A BasketballPlayer belongs to either `Manager` or is on the `WaiverWire`
+
+**Entity C:**
+
+- Name: `WaiverWire`
+- Key fields: AvailablePlayers
+- Identifiers: `BasketballPlayer.Id`
+- Relationships: Holds many `BasketballPlayer` objects that are not currently assigned to any `Manager`
 
 **Identifiers (keys) and why they're chosen:**  
-_Explain your choice of keys (e.g., string Id, composite key, case-insensitive, etc.)._
 
-**Your Answer:**
+- **ManagerName** is used as the identifier for `Manager` objects because it is user-facing, unique within the league, and intuitive for lookups. 
+- **BasketballPlayer.Id** is an auto-incremented integer to guarantee uniqueness, prevent name collisions, and support fast lookups when claiming or removing players.
+- Numeric IDs were preferred over names for players to avoid ambiguity and simplify user input validation
 
 ---
 
@@ -39,142 +47,121 @@ _List only the meaningful data structures you chose. For each, state the purpose
 ### Structure #1
 
 **Chosen Data Structure:**  
-_Name the data structure (e.g., Dictionary<string, Customer>)._
-
-**Your Answer:**
+`Dictionary<int, Manager>`
 
 **Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
+Stores and manages all league managers. Powers manager creation, lookup, updates, and listing.
 
 **Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
-
-**Your Answer:**
+- Fast O(1) average-time lookup by manager ID
+- Ideal for ensuring manager names are unique
+- Simple and readable for core operations
 
 **Alternatives considered:**  
-_List alternatives (e.g., List<T>, SortedDictionary, custom tree) and why you didn't choose them._
-
-**Your Answer:**
+- `SortedDictionary` - unnecessary ordering overhead
+- `PlayersDictionary` (In Manager Object) - unnecessary since a team usually has less than 12 players on a roster. So no need for fast lookups just uniqueness.
 
 ---
 
 ### Structure #2
 
 **Chosen Data Structure:**  
-_Name the data structure._
-
-**Your Answer:**
+`HashSet<BasketballPlayer>`
 
 **Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
+Used by each Manager to store their team's players and enforce uniqueness.
 
 **Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
+- Prevents duplicates players on a team
+- Fast O(1) add and remove
+- Ideal for unordered collection where uniqueness matters
 
-**Your Answer:**
 
 **Alternatives considered:**  
-_List alternatives and why you didn't choose them._
-
-**Your Answer:**
+- `Dictionary<int, BasketballPlayer>` (In Manager Object) - unnecessary since a team usually has less than 12 players on a roster. So no need for fast lookups just uniqueness.
+- `List<BasketballPlayer>` — rejected due to duplicate risk and slower searches
 
 ---
 
 ### Structure #3
 
 **Chosen Data Structure:**  
-_Name the data structure._
-
-**Your Answer:**
+`Dictionary<int, BasketballPlayer>`
 
 **Purpose / Role in App:**  
-_What user action or feature does it power?_
-
-**Your Answer:**
+Represents the waiver wire, enabling players to be claimed or dropped efficiently by ID.
 
 **Why it fits:**  
-_Explain access patterns, typical size, performance/Big-O, memory, simplicity._
-
-**Your Answer:**
+- O(1) lookup by player ID
+- Mirrors real fantasy sports waiver systems
+- Makes add/remove operations explicit and safe
 
 **Alternatives considered:**  
-_List alternatives and why you didn't choose them._
+`List<BasketballPlayer>` — rejected due to O(n) search time
 
-**Your Answer:**
-
----
-
-### Additional Structures (if applicable)
-
-_Add more sections if you used additional structures like Queue for workflows, Stack for undo, HashSet for uniqueness, Graph for relationships, BST/SortedDictionary for ordered views, etc._
-
-**Your Answer:**
+`Queue<BasketballPlayer>` — not appropriate since order does not matter
 
 ---
+
 
 ## Comparers & String Handling
 
 **Comparer choices:**  
-_Explain what comparers you used and why (e.g., StringComparer.OrdinalIgnoreCase for keys)._
-
-**Your Answer:**
+- `StringComparer.OrdinalIgnoreCase` is used for manager name keys to prevent duplicate managers with different casing.
 
 **For keys:**
+- Manager names are treated as case-insensitive.
 
 **For display sorting (if different):**
+- N/A (display order reflects insertion order)
 
 **Normalization rules:**  
-_Describe how you normalize strings (trim whitespace, collapse duplicates, canonicalize casing)._
-
-**Your Answer:**
+- User input is trimmed and checked for empty or whitespace-only values.
+- Manager names are validated for uniqueness before creation.
+- Player IDs are validated using int.TryParse to prevent runtime errors.
 
 **Bad key examples avoided:**  
-_List examples of bad key choices and why you avoided them (e.g., non-unique names, culture-varying text, trailing spaces, substrings that can change)._
-
+- Player full names (not unique)
+- Team names (mutable and not guaranteed unique)
+- Case-sensitive strings ("Jarod" vs "jarod")
 ---
 
 ## Performance Considerations
 
 **Expected data scale:**  
-_Describe the expected size of your data (e.g., 100 items, 10,000 items)._
-
-**Your Answer:**
+- Managers: 1 - 20
+- Players: 40 - 300
+- Waiver Wire Size: 50 - 200 players
 
 **Performance bottlenecks identified:**  
-_List any potential performance issues and how you addressed them._
+- Repeated null lookups were addressed using guard clauses and nullable reference handling.
+- Dictionary-based lookups prevent unnecessary iteration.
 
-**Your Answer:**
 
 **Big-O analysis of core operations:**  
 _Provide time complexity for your main operations (Add, Search, List, Update, Delete)._
 
-**Your Answer:**
-
-- Add:
-- Search:
-- List:
-- Update:
-- Delete:
+- Add: O(1)
+- Search: O(1)
+- List:  O(n)
+- Update: O(1)
+- Delete: O(1)
 
 ---
 
 ## Design Tradeoffs & Decisions
 
 **Key design decisions:**  
-_Explain major design choices and why you made them._
-
-**Your Answer:**
+- Chose in-memory data structures for simplicity and clarity.
+- Centralized business logic in service classes (ManagerService, WaiverWire).
+- Used guard clauses heavily to prevent invalid state and crashes.
 
 **Tradeoffs made:**  
-_Describe any tradeoffs between simplicity vs performance, memory vs speed, etc._
-
-**Your Answer:**
+- Avoided premature optimization given the small dataset size.
+- Prioritized readability and maintainability over advanced persistence.
 
 **What you would do differently with more time:**  
-_Reflect on what you might change or improve._
+- Persist data using a database or file storage.
+- Implement sorting and filtering options for waiver wire listings.
+- Implement PriorityQueue for Waiver Wire pick ups to simulate IRL fantasy apps. 
 
-**Your Answer:**
