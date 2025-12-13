@@ -57,6 +57,7 @@ namespace TeamManagerApp.UI
                 // NOTE: Pause and clear screen for better user experience
                 if (isRunning)
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
                     Console.Clear();
@@ -113,9 +114,9 @@ namespace TeamManagerApp.UI
                     HandleListManagers();
                     break;
 
-                // case "9":
-                //     HandleChangeTeamName();
-                //     break;
+                case "9":
+                    HandleListPlayers();
+                    break;
                     
                 case "10":
                 case "exit":
@@ -134,12 +135,12 @@ namespace TeamManagerApp.UI
         // Display menu
         private void DisplayMainMenu()
         {            
-            Console.WriteLine("┌─────────────────────   Team Manager & Player Explorer   ─────────────────────┐");
-            Console.WriteLine("│ 1. Populate Managers       │ 2. Populate Waivers   │ 3. Create Your Manager  │");
-            Console.WriteLine("│ 4. Waiver Wire List        │ 5. Add Players        │ 6. Remove Players       │");
-            Console.WriteLine("│ 7. Change Team Name        │ 8. List Managers      │ 9. List Players         │");
-            Console.WriteLine("│ 10. Exit                                                                     │");
-            Console.WriteLine("└──────────────────────────────────────────────────────────────────────────────┘");
+            Console.WriteLine("┌────────────────────────────   Team Manager & Player Explorer   ────────────────────────────┐");
+            Console.WriteLine("│ 1. Populate Managers       │ 2. Populate Waivers   │ 3. Create Your Manager               │");
+            Console.WriteLine("│ 4. Waiver Wire List        │ 5. Add Players        │ 6. Remove Players                    │");
+            Console.WriteLine("│ 7. Change Team Name        │ 8. List Managers      │ 9. List Players On Each Team         │");
+            Console.WriteLine("│ 10. Exit                                                                                  │");
+            Console.WriteLine("└───────────────────────────────────────────────────────────────────────────────────────────┘");
             Console.Write("\nChoose an option by number: ");
         }
 
@@ -419,10 +420,17 @@ namespace TeamManagerApp.UI
 
         private void HandleListManagers()
         {
+            Console.WriteLine("=== List of Managers ===");
             managerService.ListAllManagers();
             Console.WriteLine();
         }
 
+        private void HandleListPlayers()
+        {
+            Console.WriteLine("=== List of Players on Each Team ===");
+            Console.WriteLine();
 
+            managerService.ListAllPlayersPerTeam();
+        }
     }
 }

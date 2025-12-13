@@ -131,6 +131,26 @@ namespace TeamManagerApp.Services
             }
         }
 
+        public void ListAllPlayersPerTeam()
+        {
+            // Guard clause for no mangers in the league
+            if (ManagerList.Count == 0)
+            {
+                Console.WriteLine("No managers found in the league.");
+                return;
+            }
+
+            foreach(Manager manager in ManagerList)
+            {
+                Console.WriteLine("\n==============================");
+                Console.WriteLine($"{manager.TeamName} ({manager.ManagerName})");
+                Console.WriteLine("==============================");
+
+
+                ListPlayersByManager(manager.ManagerName);
+            }
+        }
+
         // Populates the app with other managers and players on their team
         public void PopulateManagers()
         {
