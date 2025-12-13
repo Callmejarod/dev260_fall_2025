@@ -185,6 +185,16 @@ namespace TeamManagerApp.UI
             Console.WriteLine("=== Manager Creation ===");
 
             // Error handling
+
+            // Prevent creating multiple managers
+            if (userManager != null)
+            {
+                Console.WriteLine("✗ ERROR: You have already created a manager.");
+                Console.WriteLine($"Your Profile: {userManager.ManagerName} ({userManager.TeamName})");
+                Console.WriteLine();
+                return;
+            }
+
             try
             {
                 bool success = false;
