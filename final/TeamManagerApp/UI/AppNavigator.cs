@@ -101,10 +101,9 @@ namespace TeamManagerApp.UI
                     HandleAddPlayer();
                     break;
                     
-                // case "6":
-                // case "unique":
-                //     HandleListUniqueCommand();
-                //     break;
+                case "6":
+                    HandleRemovePlayer();
+                    break;
                     
                 // case "7":
                 // case "stats":
@@ -308,6 +307,52 @@ namespace TeamManagerApp.UI
             Console.WriteLine();
         }
 
+        private void HandleRemovePlayer()
+        {
+            Console.WriteLine("=== Player Removal ===");
+
+            Console.Write("Enter the Player ID: ");
+            string userInput = Console.ReadLine();
+
+            // Validate ID input
+            if (!int.TryParse(userInput, out int playerId))
+            {
+                Console.WriteLine($"✗ ERROR: '{userInput}' is not a valid ID number.");
+                Console.WriteLine();
+                return;
+            }
+
+            // Check if the player is actually on the user's team
+            BasketballPlayer playerToRemove = userManager.FindPlayerByID(playerId);
+
+            if (playerToRemove == null)
+            {
+                Console.WriteLine($"✗ ERROR: Player ID {playerId} is not on your team.");
+                Console.WriteLine();
+                return;
+            }
+
+            // Confirm action
+            Console.WriteLine(
+                $"\nAre you sure you want to drop {playerToRemove.FullName}?\n" +
+                "They will be placed on waivers for anyone to claim. (Y/N)"
+            );
+
+            string confirmation = Console.ReadLine()?.Trim().ToLower();
+
+            if (confirmation != "y")
+            {
+                Console.WriteLine("\nOperation cancelled.\n");
+                return;
+            }
+
+            // Remove from team + add back to waivers
+            userManager.RemovePlayer(playerId);
+            waiverWire.AddToWaivers(playerToRemove);
+
+            Console.WriteLine($"\n✓ SUCCESS: {playerToRemove.FullName} is now on waivers!");
+            Console.WriteLine();
+        }
 
 
 
