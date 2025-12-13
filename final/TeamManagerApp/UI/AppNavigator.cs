@@ -15,6 +15,8 @@ namespace TeamManagerApp.UI
         private Manager? userManager;
 
         private bool isRunning;
+        private bool populatedManagers;
+        private bool populatedWaivers;
 
         public AppNavigator(ManagerService managerService, WaiverWire waiverWire)
         {
@@ -22,6 +24,9 @@ namespace TeamManagerApp.UI
             this.waiverWire = waiverWire ?? throw new ArgumentNullException(nameof(waiverWire));
 
             userManager = null;
+            populatedManagers = false;
+            populatedWaivers = false;
+
             this.isRunning = true;
         }
 
@@ -156,11 +161,19 @@ namespace TeamManagerApp.UI
         {
             Console.WriteLine("Attempting to populate managers...");
 
+            // Guard Clause if this has already been done
+            if (populatedManagers)
+            {
+                Console.WriteLine("✗ ERROR: Managers have already been populated.");
+                return;
+            }
+
             // Error handling
             try
             {
                 managerService.PopulateManagers();
                 Console.WriteLine($"✓ SUCCESS: Priscila, Jarod, and Justin are now in your fantasy league!");
+                populatedManagers = true;
             }
             catch(Exception ex)
             {
@@ -175,11 +188,18 @@ namespace TeamManagerApp.UI
         {
             Console.WriteLine("Attempting to populate waiver wire...");
 
+            if (populatedWaivers)
+            {
+                Console.WriteLine("✗ ERROR: The waiver wire has already been populated.");
+                return;
+            }
+
             // Error handling
             try
             {
                 waiverWire.PopulateWaiverWire();
                 Console.WriteLine($"✓ SUCCESS: Players are now available to pick up in the waiver wires!");
+                populatedWaivers = true;
             }
             catch(Exception ex)
             {
