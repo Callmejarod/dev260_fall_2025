@@ -108,8 +108,16 @@ namespace TeamManagerApp.UI
                 case "7":
                     HandleChangeTeamName();
                     break;
-                    
+
                 case "8":
+                    HandleListManagers();
+                    break;
+
+                // case "9":
+                //     HandleChangeTeamName();
+                //     break;
+                    
+                case "10":
                 case "exit":
                 case "quit":
                     isRunning = false;
@@ -409,7 +417,11 @@ namespace TeamManagerApp.UI
 
         }
 
-
+        private void HandleListManagers()
+        {
+            managerService.ListAllManagers();
+            Console.WriteLine();
+        }
 
 
     }
